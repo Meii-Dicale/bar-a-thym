@@ -24,7 +24,8 @@ Table COCKTAIL {
   nom         varchar
   image_url   varchar
   categorie   varchar
-  actif       boolean     [default: false, note: "Toggle barman — visible sur la carte"]
+  actif         boolean     [default: false, note: "Toggle barman — visible sur la carte"]
+  instructions  text        [note: "Recette issue de l'API (strInstructionsFR)"]
 }
 
 Table COCKTAIL_INGREDIENT {

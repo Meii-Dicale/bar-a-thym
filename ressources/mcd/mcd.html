@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>MCD — Bar à Thym</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f0eb;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 13px;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      color: #3b3028;
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+    }
+
+    .diagram {
+      position: relative;
+      width: 1200px;
+      height: 860px;
+      margin: 0 auto;
+    }
+
+    svg.lines {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .entity {
+      position: absolute;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      min-width: 200px;
+      overflow: hidden;
+    }
+
+    .entity-header {
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .entity-body {
+      padding: 8px 0;
+    }
+
+    .attr {
+      padding: 4px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid #f0ece8;
+      color: #3b3028;
+    }
+    .attr:last-child { border-bottom: none; }
+
+    .attr-name { font-weight: 500; }
+
+    .badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .pk { background: #fde8cc; color: #b85c00; }
+    .fk { background: #ddeeff; color: #1a5fa8; }
+    .type { color: #999; font-size: 11px; align-self: center; }
+    .note { color: #b07d50; font-size: 10px; font-style: italic; align-self: center; }
+
+    /* Couleurs par entité */
+    .color-user    { background: #5b7e6b; }
+    .color-ing     { background: #7a9e7e; }
+    .color-cock    { background: #8c6d4f; }
+    .color-ci      { background: #a08060; }
+    .color-tp      { background: #6b7fa3; }
+    .color-cmd     { background: #c0694a; }
+    .color-lc      { background: #9b5a7a; }
+
+    line, path {
+      stroke: #aaa;
+      stroke-width: 1.8;
+      fill: none;
+    }
+    .rel-label {
+      font-size: 11px;
+      fill: #888;
+      font-style: italic;
+    }
+    .card {
+      font-size: 11px;
+      fill: #555;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>MCD — Bar à Thym</h1>
+
+  <div class="diagram">
+
+    <!-- ═══ SVG RELATIONS ═══ -->
+    <svg class="lines">
+
+      <!-- UTILISATEUR → COMMANDE (client) -->
+      <line x1="220" y1="140" x2="340" y2="480"/>
+      <text class="card" x="240" y="320">1,n</text>
+      <text class="card" x="330" y="470">0,n</text>
+      <text class="rel-label" x="255" y="380">passe</text>
+
+      <!-- UTILISATEUR → COMMANDE (barmaker) -->
+      <line x1="230" y1="140" x2="490" y2="480"/>
+      <text class="card" x="380" y="290">1,n</text>
+      <text class="rel-label" x="370" y="340">traite</text>
+
+      <!-- COMMANDE → LIGNE_COMMANDE -->
+      <line x1="460" y1="620" x2="460" y2="680"/>
+      <text class="card" x="468" y="645">1,1</text>
+      <text class="card" x="468" y="700">1,n</text>
+
+      <!-- LIGNE_COMMANDE → COCKTAIL -->
+      <line x1="620" y1="740" x2="700" y2="260"/>
+      <text class="card" x="670" y="500">n,1</text>
+      <text class="rel-label" x="640" y="520">concerne</text>
+
+      <!-- LIGNE_COMMANDE → TAILLE_PRIX -->
+      <line x1="620" y1="760" x2="870" y2="620"/>
+      <text class="card" x="740" y="720">n,1</text>
+      <text class="rel-label" x="720" y="700">utilise</text>
+
+      <!-- COCKTAIL → TAILLE_PRIX -->
+      <line x1="870" y1="260" x2="940" y2="480"/>
+      <text class="card" x="912" y="350">1,1</text>
+      <text class="card" x="948" y="470">1,n</text>
+
+      <!-- COCKTAIL → COCKTAIL_INGREDIENT -->
+      <line x1="800" y1="260" x2="790" y2="410"/>
+      <text class="card" x="808" y="320">1,n</text>
+
+      <!-- INGREDIENT → COCKTAIL_INGREDIENT -->
+      <line x1="980" y1="140" x2="870" y2="410"/>
+      <text class="card" x="940" y="270">1,n</text>
+
+    </svg>
+
+    <!-- ═══ ENTITÉS ═══ -->
+
+    <!-- UTILISATEUR -->
+    <div class="entity" style="top:20px; left:20px; width:220px;">
+      <div class="entity-header color-user">UTILISATEUR</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">nom</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">prenom</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">email</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">mot_de_passe</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">role</span><span class="note">CLIENT | BARMAKER</span></div>
+      </div>
+    </div>
+
+    <!-- INGREDIENT -->
+    <div class="entity" style="top:20px; left:870px; width:220px;">
+      <div class="entity-header color-ing">INGREDIENT</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">api_id</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">nom</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">image_url</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">disponible</span><span class="note">boolean</span></div>
+      </div>
+    </div>
+
+    <!-- COCKTAIL -->
+    <div class="entity" style="top:160px; left:680px; width:220px;">
+      <div class="entity-header color-cock">COCKTAIL</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">api_id</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">nom</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">image_url</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">categorie</span><span class="type">varchar</span></div>
+        <div class="attr"><span class="attr-name">actif</span><span class="note">boolean</span></div>
+      </div>
+    </div>
+
+    <!-- COCKTAIL_INGREDIENT -->
+    <div class="entity" style="top:410px; left:700px; width:235px;">
+      <div class="entity-header color-ci">COCKTAIL_INGREDIENT</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">cocktail_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">ingredient_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">quantite</span><span class="note">ex: 6cl, Top up</span></div>
+      </div>
+    </div>
+
+    <!-- TAILLE_PRIX -->
+    <div class="entity" style="top:480px; left:930px; width:210px;">
+      <div class="entity-header color-tp">TAILLE_PRIX</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">cocktail_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">taille</span><span class="note">S | M | L</span></div>
+        <div class="attr"><span class="attr-name">prix</span><span class="type">decimal</span></div>
+      </div>
+    </div>
+
+    <!-- COMMANDE -->
+    <div class="entity" style="top:480px; left:310px; width:235px;">
+      <div class="entity-header color-cmd">COMMANDE</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">client_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">barmaker_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">statut</span><span class="note">COMMANDEE…</span></div>
+        <div class="attr"><span class="attr-name">total</span><span class="type">decimal</span></div>
+        <div class="attr"><span class="attr-name">cree_le</span><span class="type">timestamp</span></div>
+      </div>
+    </div>
+
+    <!-- LIGNE_COMMANDE -->
+    <div class="entity" style="top:680px; left:310px; width:240px;">
+      <div class="entity-header color-lc">LIGNE_COMMANDE</div>
+      <div class="entity-body">
+        <div class="attr"><span class="attr-name">id</span><span class="badge pk">PK</span></div>
+        <div class="attr"><span class="attr-name">commande_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">cocktail_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">taille_prix_id</span><span class="badge fk">FK</span></div>
+        <div class="attr"><span class="attr-name">note</span><span class="type">text</span></div>
+        <div class="attr"><span class="attr-name">statut</span><span class="note">PREP…TERMINEE</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p style="text-align:center; color:#999; margin-top:30px; font-size:12px;">
+    Pour importer dans dbdiagram.io → utiliser le fichier <strong>mcd.dbml</strong>
+  </p>
+</body>
+</html>

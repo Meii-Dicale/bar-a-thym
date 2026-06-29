@@ -1,0 +1,63 @@
+// Bar à Thym — MCD
+// À coller sur https://dbdiagram.io
+
+Table UTILISATEUR {
+  id          integer     [pk, increment]
+  nom         varchar
+  prenom      varchar
+  email       varchar     [unique]
+  mot_de_passe varchar
+  role        varchar     [note: "ENUM: CLIENT | BARMAKER"]
+}
+
+Table INGREDIENT {
+  id          integer     [pk, increment]
+  api_id      varchar     [unique, note: "ID issu de l'API cocktail"]
+  nom         varchar
+  image_url   varchar
+  disponible  boolean     [default: false, note: "Toggle barman — ingrédient en stock"]
+}
+
+Table COCKTAIL {
+  id          integer     [pk, increment]
+  api_id      varchar     [unique, note: "ID issu de l'API cocktail"]
+  nom         varchar
+  image_url   varchar
+  categorie   varchar
+  actif       boolean     [default: false, note: "Toggle barman — visible sur la carte"]
+}
+
+Table COCKTAIL_INGREDIENT {
+  cocktail_id    integer  [ref: > COCKTAIL.id]
+  ingredient_id  integer  [ref: > INGREDIENT.id]
+  quantite       varchar  [note: "ex: 6cl, Top up, Plein"]
+
+  indexes {
+    (cocktail_id, ingredient_id) [pk]
+  }
+}
+
+Table TAILLE_PRIX {
+  id          integer     [pk, increment]
+  cocktail_id integer     [ref: > COCKTAIL.id]
+  taille      varchar     [note: "ENUM: S | M | L"]
+  prix        decimal
+}
+
+Table COMMANDE {
+  id          integer     [pk, increment]
+  client_id   integer     [ref: > UTILISATEUR.id]
+  barmaker_id integer     [ref: > UTILISATEUR.id, note: "Nullable — assigné au Prendre en charge"]
+  statut      varchar     [note: "ENUM: COMMANDEE | EN_COURS | TERMINEE"]
+  total       decimal
+  cree_le     timestamp
+}
+
+Table LIGNE_COMMANDE {
+  id            integer   [pk, increment]
+  commande_id   integer   [ref: > COMMANDE.id]
+  cocktail_id   integer   [ref: > COCKTAIL.id]
+  taille_prix_id integer  [ref: > TAILLE_PRIX.id]
+  note          text      [note: "Note libre du client"]
+  statut        varchar   [note: "ENUM: PREPARATION | ASSEMBLAGE | DRESSAGE | TERMINEE"]
+}

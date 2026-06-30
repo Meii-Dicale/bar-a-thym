@@ -3,7 +3,7 @@
 -- ============================================================
 
 CREATE TABLE utilisateurs (
-    US_ID       SERIAL PRIMARY KEY,
+    US_ID       BIGSERIAL PRIMARY KEY,
     US_Nom      VARCHAR(255) NOT NULL,
     US_Prenom   VARCHAR(255) NOT NULL,
     US_Email    VARCHAR(255) NOT NULL UNIQUE,
@@ -12,7 +12,7 @@ CREATE TABLE utilisateurs (
 );
 
 CREATE TABLE ingredients (
-    ING_ID          SERIAL PRIMARY KEY,
+    ING_ID          BIGSERIAL PRIMARY KEY,
     ING_ApiId       VARCHAR(255) NOT NULL UNIQUE,
     ING_Nom         VARCHAR(255) NOT NULL,
     ING_ImageUrl    VARCHAR(500),
@@ -20,7 +20,7 @@ CREATE TABLE ingredients (
 );
 
 CREATE TABLE cocktails (
-    CO_ID           SERIAL PRIMARY KEY,
+    CO_ID           BIGSERIAL PRIMARY KEY,
     CO_ApiId        VARCHAR(255) NOT NULL UNIQUE,
     CO_Nom          VARCHAR(255) NOT NULL,
     CO_ImageUrl     VARCHAR(500),
@@ -30,33 +30,33 @@ CREATE TABLE cocktails (
 );
 
 CREATE TABLE cocktail_ingredients (
-    CI_ID       SERIAL PRIMARY KEY,
-    CO_ID       INTEGER NOT NULL REFERENCES cocktails(CO_ID) ON DELETE CASCADE,
-    ING_ID      INTEGER NOT NULL REFERENCES ingredients(ING_ID) ON DELETE CASCADE,
+    CI_ID       BIGSERIAL PRIMARY KEY,
+    CO_ID       BIGINT NOT NULL REFERENCES cocktails(CO_ID) ON DELETE CASCADE,
+    ING_ID      BIGINT NOT NULL REFERENCES ingredients(ING_ID) ON DELETE CASCADE,
     CI_Quantite VARCHAR(100)
 );
 
 CREATE TABLE tailles_prix (
-    TP_ID       SERIAL PRIMARY KEY,
-    CO_ID       INTEGER      NOT NULL REFERENCES cocktails(CO_ID) ON DELETE CASCADE,
+    TP_ID       BIGSERIAL PRIMARY KEY,
+    CO_ID       BIGINT       NOT NULL REFERENCES cocktails(CO_ID) ON DELETE CASCADE,
     TP_Taille   VARCHAR(10)  NOT NULL,
     TP_Prix     DECIMAL(5,2) NOT NULL
 );
 
 CREATE TABLE commandes (
-    CMD_ID          SERIAL PRIMARY KEY,
-    CMD_ClientId    INTEGER      NOT NULL REFERENCES utilisateurs(US_ID),
-    CMD_BarMakerId  INTEGER      REFERENCES utilisateurs(US_ID),
+    CMD_ID          BIGSERIAL PRIMARY KEY,
+    CMD_ClientId    BIGINT       NOT NULL REFERENCES utilisateurs(US_ID),
+    CMD_BarMakerId  BIGINT       REFERENCES utilisateurs(US_ID),
     CMD_Statut      VARCHAR(50)  NOT NULL DEFAULT 'COMMANDEE',
     CMD_Total       DECIMAL(8,2) NOT NULL,
     CMD_CreeLe      TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE lignes_commande (
-    LC_ID       SERIAL PRIMARY KEY,
-    CMD_ID      INTEGER     NOT NULL REFERENCES commandes(CMD_ID) ON DELETE CASCADE,
-    CO_ID       INTEGER     NOT NULL REFERENCES cocktails(CO_ID),
-    TP_ID       INTEGER     NOT NULL REFERENCES tailles_prix(TP_ID),
+    LC_ID       BIGSERIAL PRIMARY KEY,
+    CMD_ID      BIGINT      NOT NULL REFERENCES commandes(CMD_ID) ON DELETE CASCADE,
+    CO_ID       BIGINT      NOT NULL REFERENCES cocktails(CO_ID),
+    TP_ID       BIGINT      NOT NULL REFERENCES tailles_prix(TP_ID),
     LC_Note     TEXT,
     LC_Statut   VARCHAR(50) NOT NULL DEFAULT 'PREPARATION'
 );

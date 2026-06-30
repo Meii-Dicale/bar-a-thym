@@ -1,0 +1,30 @@
+{
+  "name": "barathym-barmaker",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2",
+    "vuetify": "^3.6.8",
+    "@mdi/font": "^7.4.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/test-utils": "^2.4.6",
+    "vite": "^5.2.11",
+    "vitest": "^1.6.0",
+    "vue-tsc": "^2.0.16",
+    "typescript": "^5.4.0",
+    "jsdom": "^24.0.0",
+    "@vitest/coverage-v8": "^1.6.0"
+  }
+}

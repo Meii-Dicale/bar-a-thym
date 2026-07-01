@@ -1,5 +1,5 @@
 <template>
-  <v-app :theme="'barathym'">
+  <v-app :theme="'barathym'" style="height: 100dvh; overflow: hidden;">
     <router-view />
   </v-app>
 </template>
@@ -14,5 +14,10 @@
 
 .font-fraunces {
   font-family: 'Fraunces', serif !important;
+}
+
+html, body {
+  height: 100dvh;
+  overflow: hidden;
 }
 </style>

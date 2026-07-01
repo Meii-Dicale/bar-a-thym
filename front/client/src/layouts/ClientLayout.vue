@@ -1,6 +1,7 @@
 <template>
-  <v-layout>
-    <v-app-bar flat color="#F9F5EE" border="b">
+  <v-layout style="height: 100dvh; overflow: hidden;">
+
+    <v-app-bar flat color="#F9F5EE" border="b" style="flex-shrink: 0;">
       <v-app-bar-title>
         <span class="font-fraunces font-italic font-weight-bold" style="font-size: 20px; color: #1F2421;">
           Bar à Thym
@@ -11,7 +12,7 @@
       </template>
     </v-app-bar>
 
-    <v-main style="background: #F9F5EE; padding-bottom: 80px;">
+    <v-main style="background: #F9F5EE; overflow-y: auto; -webkit-overflow-scrolling: touch;">
       <router-view />
     </v-main>
 
@@ -21,8 +22,9 @@
       bg-color="white"
       elevation="8"
       grow
+      style="flex-shrink: 0;"
     >
-      <v-btn value="/" to="/" icon="mdi-cup-outline">
+      <v-btn value="/" to="/">
         <v-icon>mdi-cup-outline</v-icon>
         <span style="font-size: 11px;">Carte</span>
       </v-btn>
@@ -44,6 +46,7 @@
         <span style="font-size: 11px;">Commandes</span>
       </v-btn>
     </v-bottom-navigation>
+
   </v-layout>
 </template>
 
@@ -67,4 +70,9 @@ function deconnexion() {
 </script>
 
 <style scoped>
+:deep(.v-main__wrap) {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 </style>

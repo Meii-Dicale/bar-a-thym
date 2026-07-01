@@ -6,6 +6,8 @@ export const cocktailService = {
 
   findDisponibles: () => api.get<Cocktail[]>('/cocktails/disponibles').then(r => r.data),
 
+  findActifs: () => api.get<Cocktail[]>('/cocktails/actifs').then(r => r.data),
+
   findById: (id: number) => api.get<Cocktail>(`/cocktails/${id}`).then(r => r.data),
 
   toggleActif: (id: number) => api.patch<void>(`/cocktails/${id}/actif`),

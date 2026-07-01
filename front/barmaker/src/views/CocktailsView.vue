@@ -3,15 +3,21 @@
 
     <div class="d-flex align-center justify-space-between" style="flex-shrink: 0; margin-bottom: 16px;">
       <h1 class="font-fraunces" style="font-size: 36px; color: #1F2421;">
-        Cocktails disponibles
+        {{ vue === 'disponibles' ? 'Cocktails disponibles' : 'Cocktails en ligne' }}
       </h1>
-      <v-btn
-        :icon="filtresOuverts ? 'mdi-close' : 'mdi-magnify'"
-        variant="outlined"
-        color="primary"
-        rounded="circle"
-        @click="toggleFiltres"
-      />
+      <div class="d-flex align-center" style="gap: 8px;">
+        <v-btn-toggle v-model="vue" mandatory density="compact" rounded="lg" color="primary">
+          <v-btn value="disponibles" size="small">Disponibles</v-btn>
+          <v-btn value="en-ligne" size="small">En ligne</v-btn>
+        </v-btn-toggle>
+        <v-btn
+          :icon="filtresOuverts ? 'mdi-close' : 'mdi-magnify'"
+          variant="outlined"
+          color="primary"
+          rounded="circle"
+          @click="toggleFiltres"
+        />
+      </div>
     </div>
 
     <v-expand-transition>
@@ -205,6 +211,7 @@ const recherche = ref('')
 const ingredientSelectionne = ref<string | null>(null)
 const filtresOuverts = ref(false)
 const conteneur = ref<HTMLElement | null>(null)
+const vue = ref<'disponibles' | 'en-ligne'>('disponibles')
 
 const dialogPrix = ref(false)
 const cocktailPrix = ref<Cocktail | null>(null)
@@ -266,6 +273,12 @@ const cocktailsFiltres = computed(() => {
     liste = liste.filter(c => c.ingredients?.some(i => i.nom === ingredientSelectionne.value))
   }
   return liste
+})
+
+watch(vue, (v) => {
+  page.value = 1
+  if (v === 'en-ligne') store.fetchActifs()
+  else store.fetchDisponibles()
 })
 
 watch([recherche, ingredientSelectionne], () => { page.value = 1 })

@@ -10,8 +10,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = ref(utilisateur.value !== null)
 
-  async function login(email: string): Promise<boolean> {
-    const user = await authService.login(email)
+  async function login(email: string, motDePasse: string): Promise<boolean> {
+    const user = await authService.login(email, motDePasse)
     if (user) {
       utilisateur.value = user
       isAuthenticated.value = true

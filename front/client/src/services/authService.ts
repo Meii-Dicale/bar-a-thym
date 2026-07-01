@@ -9,9 +9,13 @@ export interface InscriptionPayload {
 }
 
 export const authService = {
-  async login(email: string): Promise<Utilisateur | null> {
-    const { data } = await api.get<Utilisateur[]>('/utilisateurs')
-    return data.find(u => u.email === email && u.role === 'CLIENT') ?? null
+  async login(email: string, motDePasse: string): Promise<Utilisateur | null> {
+    try {
+      const { data } = await api.post<Utilisateur>('/auth/login', { email, motDePasse })
+      return data.role === 'CLIENT' ? data : null
+    } catch {
+      return null
+    }
   },
 
   async inscription(payload: InscriptionPayload): Promise<void> {

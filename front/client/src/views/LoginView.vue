@@ -1,9 +1,9 @@
 <template>
-  <v-app style="background: #F9F5EE;">
-    <v-main>
+  <v-app style="background: #F9F5EE; min-height: 100dvh;">
+    <v-main style="background: #F9F5EE;">
       <div
         class="d-flex flex-column align-center justify-center pa-6"
-        style="min-height: 100vh;"
+        style="min-height: 100dvh;"
       >
         <div class="text-center mb-10">
           <v-avatar color="primary" size="80" rounded="xl" class="mb-6">
@@ -53,6 +53,16 @@
               variant="outlined"
               rounded="lg"
               color="primary"
+              class="mb-3"
+            />
+
+            <v-text-field
+              v-model="motDePasse"
+              label="Mot de passe"
+              type="password"
+              variant="outlined"
+              rounded="lg"
+              color="primary"
               class="mb-4"
               @keyup.enter="connexion"
             />
@@ -93,6 +103,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const email = ref('')
+const motDePasse = ref('')
 const erreur = ref('')
 const chargement = ref(false)
 const inscrit = ref(route.query.inscrit === '1')
@@ -100,7 +111,7 @@ const inscrit = ref(route.query.inscrit === '1')
 async function connexion() {
   erreur.value = ''
   chargement.value = true
-  const ok = await authStore.login(email.value)
+  const ok = await authStore.login(email.value, motDePasse.value)
   chargement.value = false
   if (ok) {
     router.push('/')

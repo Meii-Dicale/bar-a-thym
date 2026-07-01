@@ -137,7 +137,8 @@ cd front/client && npm test
 
 ## Comptes de démonstration
 
-| Rôle     | Email                |
-|----------|----------------------|
-| Barmaker | barmaker@barathym.fr |
-| Client   | client@barathym.fr   |
+| Rôle     | Email                | Mot de passe  |
+|----------|----------------------|---------------|
+| Barmaker | barman@test.fr       | test123!      |
+| Barmaker | barmaker@barathym.fr | barmaker123   |
+| Client   | marie@barathym.fr    | client123     |

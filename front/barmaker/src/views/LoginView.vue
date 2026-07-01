@@ -24,6 +24,16 @@
               variant="outlined"
               rounded="lg"
               color="primary"
+              class="mb-3"
+            />
+
+            <v-text-field
+              v-model="motDePasse"
+              label="Mot de passe"
+              type="password"
+              variant="outlined"
+              rounded="lg"
+              color="primary"
               class="mb-4"
               @keyup.enter="connexion"
             />
@@ -55,18 +65,19 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const email = ref('')
+const motDePasse = ref('')
 const erreur = ref('')
 const chargement = ref(false)
 
 async function connexion() {
   erreur.value = ''
   chargement.value = true
-  const ok = await authStore.login(email.value)
+  const ok = await authStore.login(email.value, motDePasse.value)
   chargement.value = false
   if (ok) {
     router.push('/')
   } else {
-    erreur.value = 'Aucun compte barmaker trouvé pour cet email.'
+    erreur.value = 'Email ou mot de passe incorrect.'
   }
 }
 </script>

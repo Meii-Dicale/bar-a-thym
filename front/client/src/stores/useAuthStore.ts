@@ -10,8 +10,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const estConnecte = computed(() => utilisateur.value !== null)
 
-  async function login(email: string): Promise<boolean> {
-    const user = await authService.login(email)
+  async function login(email: string, motDePasse: string): Promise<boolean> {
+    const user = await authService.login(email, motDePasse)
     if (user) {
       utilisateur.value = user
       localStorage.setItem('client_user', JSON.stringify(user))

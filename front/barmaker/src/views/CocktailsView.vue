@@ -68,24 +68,27 @@
           cols="12" sm="6" md="4" lg="3"
           style="padding: 8px;"
         >
-          <v-card
-            rounded="xl"
-            elevation="0"
-            border
-            :style="cocktail.actif && !cocktail.aPrix ? 'border-color: #C98E5F !important; border-width: 2px !important;' : ''"
-          >
-            <v-img
-              :src="cocktail.imageUrl ?? ''"
-              height="120"
-              cover
-              class="rounded-t-xl"
-            >
-              <template #error>
-                <div class="d-flex align-center justify-center h-100 bg-grey-lighten-3">
-                  <v-icon icon="mdi-cup" color="grey" />
-                </div>
-              </template>
-            </v-img>
+          <v-card rounded="xl" elevation="0" border>
+            <div style="position: relative;">
+              <v-img
+                :src="cocktail.imageUrl ?? ''"
+                height="120"
+                cover
+                class="rounded-t-xl"
+              >
+                <template #error>
+                  <div class="d-flex align-center justify-center h-100 bg-grey-lighten-3">
+                    <v-icon icon="mdi-cup" color="grey" />
+                  </div>
+                </template>
+              </v-img>
+              <div
+                v-if="cocktail.actif && !cocktail.aPrix"
+                style="position: absolute; top: 8px; right: 8px; background: #B00020; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;"
+              >
+                <v-icon icon="mdi-currency-eur" color="white" size="15" />
+              </div>
+            </div>
             <v-card-text class="pa-3">
               <div class="d-flex align-center justify-space-between">
                 <span class="font-weight-semibold" style="font-size: 14px; color: #1F2421; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">

@@ -25,6 +25,10 @@ public class CocktailService {
         return cocktailMapper.toDTO(cocktailRepository.findByActifTrue());
     }
 
+    public List<CocktailResponseDTO> findDisponibles() {
+        return cocktailMapper.toDTO(cocktailRepository.findAvecTousIngredentsDisponibles());
+    }
+
     public CocktailResponseDTO find(Long id) {
         Cocktail cocktail = null;
         if (cocktailRepository.findById(id).isPresent()) {

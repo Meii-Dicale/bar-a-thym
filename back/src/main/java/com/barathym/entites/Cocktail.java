@@ -3,8 +3,6 @@ package com.barathym.entites;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Formula;
-
 import java.util.List;
 
 @Getter
@@ -41,7 +39,4 @@ public class Cocktail {
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaillePrix> taillesPrix;
-
-    @Formula("(CASE WHEN EXISTS(SELECT 1 FROM tailles_prix tp WHERE tp.CO_ID = CO_ID) THEN true ELSE false END)")
-    private Boolean aPrix;
 }

@@ -63,7 +63,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useIngredientStore } from '@/stores/useIngredientStore'
 import AppPagination from '@/components/AppPagination.vue'
 
-const PAR_PAGE = 8
+const PAR_PAGE = 12
 
 const store = useIngredientStore()
 const page = ref(1)

@@ -1,7 +1,7 @@
 <template>
-  <v-layout style="height: 100vh; overflow: hidden;">
+  <v-layout style="height: 100dvh; overflow: hidden;">
 
-    <v-navigation-drawer permanent width="240" color="#F3EFE7" style="height: 100vh;">
+    <v-navigation-drawer permanent width="240" color="#F3EFE7" style="height: 100dvh;">
       <div style="height: 100%; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
 
         <div class="d-flex align-center" style="gap: 10px; flex-shrink: 0; margin-bottom: 32px;">
@@ -40,7 +40,7 @@
       </div>
     </v-navigation-drawer>
 
-    <v-main style="background: #F9F5EE; height: 100vh; overflow: hidden; display: flex; flex-direction: column;">
+    <v-main style="background: #F9F5EE; height: 100dvh; overflow: hidden; display: flex; flex-direction: column;">
       <div style="flex: 1; min-height: 0; overflow: hidden; padding: 32px; display: flex; flex-direction: column;">
         <router-view />
       </div>

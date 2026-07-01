@@ -1,5 +1,6 @@
 package com.barathym.services;
 
+import com.barathym.dtos.DefinirPrixDTO;
 import com.barathym.dtos.TaillePrixRequestDTO;
 import com.barathym.dtos.TaillePrixResponseDTO;
 import com.barathym.entites.Cocktail;
@@ -9,6 +10,7 @@ import com.barathym.repositories.CocktailRepository;
 import com.barathym.repositories.TaillePrixRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,5 +47,23 @@ public class TaillePrixService {
 
     public void remove(Long id) {
         taillePrixRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void definirPrix(Long cocktailId, DefinirPrixDTO dto) {
+        Cocktail cocktail = cocktailRepository.findById(cocktailId)
+                .orElseThrow(() -> new RuntimeException("Cocktail non trouvé"));
+        taillePrixRepository.deleteByCocktailId(cocktailId);
+        creer(cocktail, TaillePrix.Taille.S, dto.prixS());
+        creer(cocktail, TaillePrix.Taille.M, dto.prixM());
+        creer(cocktail, TaillePrix.Taille.L, dto.prixL());
+    }
+
+    private void creer(Cocktail cocktail, TaillePrix.Taille taille, java.math.BigDecimal prix) {
+        TaillePrix tp = new TaillePrix();
+        tp.setCocktail(cocktail);
+        tp.setTaille(taille);
+        tp.setPrix(prix);
+        taillePrixRepository.save(tp);
     }
 }

@@ -34,6 +34,11 @@ public class CocktailController {
         return ResponseEntity.ok(cocktailService.findDisponibles());
     }
 
+    @GetMapping("/carte")
+    public ResponseEntity<List<CocktailResponseDTO>> getCocktailsCarte() {
+        return ResponseEntity.ok(cocktailService.findCarte());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CocktailResponseDTO> getCocktail(@PathVariable Long id) {
         return ResponseEntity.ok(cocktailService.find(id));

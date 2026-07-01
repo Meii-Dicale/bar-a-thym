@@ -11,5 +11,8 @@ export const cocktailService = {
   toggleActif: (id: number) => api.patch<void>(`/cocktails/${id}/actif`),
 
   getTaillesPrix: (cocktailId: number) =>
-    api.get<TaillePrix[]>(`/tailles-prix/cocktail/${cocktailId}`).then(r => r.data)
+    api.get<TaillePrix[]>(`/tailles-prix/cocktail/${cocktailId}`).then(r => r.data),
+
+  definirPrix: (cocktailId: number, prixS: number, prixM: number, prixL: number) =>
+    api.put(`/tailles-prix/cocktail/${cocktailId}`, { prixS, prixM, prixL })
 }

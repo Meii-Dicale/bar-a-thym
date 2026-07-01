@@ -29,6 +29,11 @@ public class CocktailService {
     }
 
     @Transactional(readOnly = true)
+    public List<CocktailResponseDTO> findCarte() {
+        return cocktailMapper.toDTO(cocktailRepository.findActifsAvecPrix());
+    }
+
+    @Transactional(readOnly = true)
     public List<CocktailResponseDTO> findDisponibles() {
         return cocktailMapper.toDTO(cocktailRepository.findAvecTousIngredentsDisponibles());
     }

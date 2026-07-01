@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TaillePrixRepository extends JpaRepository<TaillePrix, Long> {
     List<TaillePrix> findByCocktailId(Long cocktailId);
+    void deleteByCocktailId(Long cocktailId);
 }

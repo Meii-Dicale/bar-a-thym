@@ -3,7 +3,7 @@ import type { Cocktail, TaillePrix } from '@/types'
 
 export const cocktailService = {
   async findActifs(): Promise<Cocktail[]> {
-    const { data } = await api.get<Cocktail[]>('/cocktails/actifs')
+    const { data } = await api.get<Cocktail[]>('/cocktails/carte')
     return data
   },
 

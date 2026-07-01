@@ -77,16 +77,25 @@
             </v-img>
             <v-card-text class="pa-3">
               <div class="d-flex align-center justify-space-between">
-                <span class="font-weight-semibold" style="font-size: 14px; color: #1F2421;">
+                <span class="font-weight-semibold" style="font-size: 14px; color: #1F2421; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                   {{ cocktail.nom }}
                 </span>
-                <v-switch
-                  :model-value="cocktail.actif"
-                  color="primary"
-                  hide-details
-                  density="compact"
-                  @change="store.toggleActif(cocktail.id)"
-                />
+                <div class="d-flex align-center" style="gap: 4px; flex-shrink: 0;">
+                  <v-btn
+                    icon="mdi-currency-eur"
+                    size="x-small"
+                    variant="text"
+                    color="secondary"
+                    @click.stop="ouvrirDialogPrix(cocktail)"
+                  />
+                  <v-switch
+                    :model-value="cocktail.actif"
+                    color="primary"
+                    hide-details
+                    density="compact"
+                    @change="store.toggleActif(cocktail.id)"
+                  />
+                </div>
               </div>
               <v-btn
                 variant="text"
@@ -108,6 +117,74 @@
     </div>
 
   </div>
+
+  <!-- Dialog prix -->
+  <v-dialog v-model="dialogPrix" max-width="360">
+    <v-card v-if="cocktailPrix" rounded="xl">
+      <v-card-title class="font-fraunces pt-5 px-5" style="font-size: 20px; color: #1F2421;">
+        Fixer les prix
+      </v-card-title>
+      <v-card-subtitle class="px-5 pb-0" style="font-size: 13px; color: rgba(31,36,33,0.55);">
+        {{ cocktailPrix.nom }}
+      </v-card-subtitle>
+      <v-card-text class="px-5 pt-4">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <v-text-field
+            v-model.number="prixS"
+            label="Prix S"
+            type="number"
+            min="0"
+            step="0.50"
+            variant="outlined"
+            density="compact"
+            color="primary"
+            rounded="lg"
+            hide-details
+            suffix="€"
+          />
+          <v-text-field
+            v-model.number="prixM"
+            label="Prix M"
+            type="number"
+            min="0"
+            step="0.50"
+            variant="outlined"
+            density="compact"
+            color="primary"
+            rounded="lg"
+            hide-details
+            suffix="€"
+          />
+          <v-text-field
+            v-model.number="prixL"
+            label="Prix L"
+            type="number"
+            min="0"
+            step="0.50"
+            variant="outlined"
+            density="compact"
+            color="primary"
+            rounded="lg"
+            hide-details
+            suffix="€"
+          />
+        </div>
+      </v-card-text>
+      <v-card-actions class="pa-5 pt-0">
+        <v-btn variant="text" @click="dialogPrix = false">Annuler</v-btn>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          rounded="lg"
+          :disabled="!prixS || !prixM || !prixL || enregistrement"
+          :loading="enregistrement"
+          @click="sauvegarderPrix"
+        >
+          Enregistrer
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -116,22 +193,31 @@ import { useCocktailStore } from '@/stores/useCocktailStore'
 import { useIngredientStore } from '@/stores/useIngredientStore'
 import AppPagination from '@/components/AppPagination.vue'
 import { useSwipe } from '@/composables/useSwipe'
+import { cocktailService } from '@/services/cocktailService'
+import type { Cocktail } from '@/types'
 
 const PAR_PAGE = 12
 
 const store = useCocktailStore()
 const ingredientStore = useIngredientStore()
 const page = ref(1)
+const recherche = ref('')
+const ingredientSelectionne = ref<string | null>(null)
+const filtresOuverts = ref(false)
 const conteneur = ref<HTMLElement | null>(null)
+
+const dialogPrix = ref(false)
+const cocktailPrix = ref<Cocktail | null>(null)
+const prixS = ref<number | null>(null)
+const prixM = ref<number | null>(null)
+const prixL = ref<number | null>(null)
+const enregistrement = ref(false)
 
 useSwipe(
   conteneur,
   () => { if (page.value < totalPages.value) page.value++ },
   () => { if (page.value > 1) page.value-- }
 )
-const recherche = ref('')
-const ingredientSelectionne = ref<string | null>(null)
-const filtresOuverts = ref(false)
 
 function toggleFiltres() {
   filtresOuverts.value = !filtresOuverts.value
@@ -139,6 +225,28 @@ function toggleFiltres() {
     recherche.value = ''
     ingredientSelectionne.value = null
   }
+}
+
+async function ouvrirDialogPrix(cocktail: Cocktail) {
+  cocktailPrix.value = cocktail
+  prixS.value = null
+  prixM.value = null
+  prixL.value = null
+  const existants = await cocktailService.getTaillesPrix(cocktail.id)
+  existants.forEach(tp => {
+    if (tp.taille === 'S') prixS.value = Number(tp.prix)
+    if (tp.taille === 'M') prixM.value = Number(tp.prix)
+    if (tp.taille === 'L') prixL.value = Number(tp.prix)
+  })
+  dialogPrix.value = true
+}
+
+async function sauvegarderPrix() {
+  if (!cocktailPrix.value || !prixS.value || !prixM.value || !prixL.value) return
+  enregistrement.value = true
+  await cocktailService.definirPrix(cocktailPrix.value.id, prixS.value, prixM.value, prixL.value)
+  enregistrement.value = false
+  dialogPrix.value = false
 }
 
 const ingredientsActifs = computed(() =>

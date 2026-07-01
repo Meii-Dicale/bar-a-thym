@@ -1,5 +1,6 @@
 package com.barathym.controllers;
 
+import com.barathym.dtos.DefinirPrixDTO;
 import com.barathym.dtos.TaillePrixRequestDTO;
 import com.barathym.dtos.TaillePrixResponseDTO;
 import com.barathym.services.TaillePrixService;
@@ -22,6 +23,12 @@ public class TaillePrixController {
     @GetMapping("/cocktail/{cocktailId}")
     public ResponseEntity<List<TaillePrixResponseDTO>> getTaillesPrixByCocktail(@PathVariable Long cocktailId) {
         return ResponseEntity.ok(taillePrixService.findByCocktail(cocktailId));
+    }
+
+    @PutMapping("/cocktail/{cocktailId}")
+    public ResponseEntity<String> definirPrix(@PathVariable Long cocktailId, @Valid @RequestBody DefinirPrixDTO dto) {
+        taillePrixService.definirPrix(cocktailId, dto);
+        return ResponseEntity.ok("{\"message\": \"Prix définis avec succès\"}");
     }
 
     @PostMapping

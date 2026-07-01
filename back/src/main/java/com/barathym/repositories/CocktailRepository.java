@@ -17,4 +17,9 @@ public interface CocktailRepository extends JpaRepository<Cocktail, Long> {
            "WHERE EXISTS (SELECT ci FROM CocktailIngredient ci WHERE ci.cocktail = c) " +
            "AND NOT EXISTS (SELECT ci2 FROM CocktailIngredient ci2 WHERE ci2.cocktail = c AND ci2.ingredient.disponible = false)")
     List<Cocktail> findAvecTousIngredentsDisponibles();
+
+    @Query("SELECT DISTINCT c FROM Cocktail c " +
+           "WHERE c.actif = true " +
+           "AND EXISTS (SELECT tp FROM TaillePrix tp WHERE tp.cocktail = c)")
+    List<Cocktail> findActifsAvecPrix();
 }

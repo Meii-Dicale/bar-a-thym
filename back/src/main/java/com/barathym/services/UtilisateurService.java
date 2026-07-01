@@ -6,6 +6,7 @@ import com.barathym.entites.Utilisateur;
 import com.barathym.mappers.UtilisateurMapper;
 import com.barathym.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final UtilisateurMapper utilisateurMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UtilisateurResponseDTO> findAll() {
         return utilisateurMapper.toDTO(utilisateurRepository.findAll());
@@ -30,7 +32,9 @@ public class UtilisateurService {
     }
 
     public void save(UtilisateurRequestDTO dto) {
-        utilisateurRepository.save(utilisateurMapper.toEntity(dto));
+        Utilisateur utilisateur = utilisateurMapper.toEntity(dto);
+        utilisateur.setMotDePasse(passwordEncoder.encode(dto.motDePasse()));
+        utilisateurRepository.save(utilisateur);
     }
 
     public void update(Long id, UtilisateurRequestDTO dto) {

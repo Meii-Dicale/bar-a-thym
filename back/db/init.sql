@@ -61,11 +61,4 @@ CREATE TABLE lignes_commande (
     LC_Statut   VARCHAR(50) NOT NULL DEFAULT 'PREPARATION'
 );
 
--- ============================================================
---  Données initiales
--- ============================================================
-
-INSERT INTO utilisateurs (US_Nom, US_Prenom, US_Email, US_MotDePasse, US_Role) VALUES
-    ('Admin',  'Bar',   'barmaker@barathym.fr', 'barmaker123', 'BARMAKER'),
-    ('Test',   'Barman','barman@test.fr',        'test123!',    'BARMAKER'),
-    ('Dupont', 'Marie', 'marie@barathym.fr',     'client123',   'CLIENT');
+-- Les utilisateurs sont créés au démarrage par DataInitializer avec mots de passe BCrypt.

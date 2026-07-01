@@ -22,4 +22,9 @@ public class SecurityConfig {
     public RestClient restClient() {
         return RestClient.create();
     }
+
+    @Bean
+    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
+        return new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+    }
 }

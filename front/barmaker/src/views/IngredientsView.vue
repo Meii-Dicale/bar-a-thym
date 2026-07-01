@@ -3,15 +3,21 @@
 
     <div class="d-flex align-center justify-space-between" style="flex-shrink: 0; margin-bottom: 16px;">
       <h1 class="font-fraunces" style="font-size: 36px; color: #1F2421;">
-        Liste des ingrédients
+        {{ vue === 'tous' ? 'Liste des ingrédients' : 'Ingrédients actifs' }}
       </h1>
-      <v-btn
-        :icon="rechercheOuverte ? 'mdi-close' : 'mdi-magnify'"
-        variant="outlined"
-        color="primary"
-        rounded="circle"
-        @click="toggleRecherche"
-      />
+      <div class="d-flex align-center" style="gap: 8px;">
+        <v-btn-toggle v-model="vue" mandatory density="compact" rounded="lg" color="primary">
+          <v-btn value="tous" size="small">Tous</v-btn>
+          <v-btn value="actifs" size="small">Actifs</v-btn>
+        </v-btn-toggle>
+        <v-btn
+          :icon="rechercheOuverte ? 'mdi-close' : 'mdi-magnify'"
+          variant="outlined"
+          color="primary"
+          rounded="circle"
+          @click="toggleRecherche"
+        />
+      </div>
     </div>
 
     <v-expand-transition>
@@ -95,6 +101,7 @@ const PAR_PAGE = 12
 
 const store = useIngredientStore()
 const page = ref(1)
+const vue = ref<'tous' | 'actifs'>('tous')
 const conteneur = ref<HTMLElement | null>(null)
 
 useSwipe(
@@ -113,12 +120,15 @@ function toggleRecherche() {
 }
 
 const ingredientsFiltres = computed(() => {
+  const base = vue.value === 'actifs'
+    ? store.ingredients.filter(i => i.disponible)
+    : store.ingredients
   const terme = (recherche.value ?? '').trim().toLowerCase()
-  if (!terme) return store.ingredients
-  return store.ingredients.filter(i => i.nom.toLowerCase().includes(terme))
+  if (!terme) return base
+  return base.filter(i => i.nom.toLowerCase().includes(terme))
 })
 
-watch(recherche, () => { page.value = 1 })
+watch([recherche, vue], () => { page.value = 1 })
 
 const totalPages = computed(() => Math.ceil(ingredientsFiltres.value.length / PAR_PAGE))
 

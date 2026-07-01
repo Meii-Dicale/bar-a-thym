@@ -31,7 +31,7 @@
         />
         <v-autocomplete
           v-model="ingredientSelectionne"
-          :items="tousLesIngredients"
+          :items="ingredientsActifs"
           placeholder="Filtrer par ingrédient"
           variant="outlined"
           density="compact"
@@ -113,11 +113,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useCocktailStore } from '@/stores/useCocktailStore'
+import { useIngredientStore } from '@/stores/useIngredientStore'
 import AppPagination from '@/components/AppPagination.vue'
 
 const PAR_PAGE = 12
 
 const store = useCocktailStore()
+const ingredientStore = useIngredientStore()
 const page = ref(1)
 const recherche = ref('')
 const ingredientSelectionne = ref<string | null>(null)
@@ -131,11 +133,12 @@ function toggleFiltres() {
   }
 }
 
-const tousLesIngredients = computed(() => {
-  const noms = new Set<string>()
-  store.cocktails.forEach(c => c.ingredients?.forEach(i => noms.add(i)))
-  return [...noms].sort((a, b) => a.localeCompare(b))
-})
+const ingredientsActifs = computed(() =>
+  ingredientStore.ingredients
+    .filter(i => i.disponible)
+    .map(i => i.nom)
+    .sort((a, b) => a.localeCompare(b))
+)
 
 const cocktailsFiltres = computed(() => {
   let liste = store.cocktails
@@ -158,7 +161,10 @@ const cocktailsPage = computed(() => {
   return cocktailsFiltres.value.slice(debut, debut + PAR_PAGE)
 })
 
-onMounted(() => store.fetchDisponibles())
+onMounted(() => {
+  store.fetchDisponibles()
+  ingredientStore.fetchAll()
+})
 </script>
 
 <style scoped>

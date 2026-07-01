@@ -8,11 +8,16 @@ export interface InscriptionPayload {
   motDePasse: string
 }
 
+export interface LoginResponse {
+  token: string
+  utilisateur: Utilisateur
+}
+
 export const authService = {
-  async login(email: string, motDePasse: string): Promise<Utilisateur | null> {
+  async login(email: string, motDePasse: string): Promise<LoginResponse | null> {
     try {
-      const { data } = await api.post<Utilisateur>('/auth/login', { email, motDePasse })
-      return data.role === 'CLIENT' ? data : null
+      const { data } = await api.post<LoginResponse>('/auth/login', { email, motDePasse })
+      return data.utilisateur.role === 'CLIENT' ? data : null
     } catch {
       return null
     }

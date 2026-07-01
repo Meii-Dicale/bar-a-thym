@@ -11,10 +11,11 @@ export const useAuthStore = defineStore('auth', () => {
   const estConnecte = computed(() => utilisateur.value !== null)
 
   async function login(email: string, motDePasse: string): Promise<boolean> {
-    const user = await authService.login(email, motDePasse)
-    if (user) {
-      utilisateur.value = user
-      localStorage.setItem('client_user', JSON.stringify(user))
+    const result = await authService.login(email, motDePasse)
+    if (result) {
+      utilisateur.value = result.utilisateur
+      localStorage.setItem('client_user', JSON.stringify(result.utilisateur))
+      localStorage.setItem('client_token', result.token)
       return true
     }
     return false
@@ -23,6 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
   function logout() {
     utilisateur.value = null
     localStorage.removeItem('client_user')
+    localStorage.removeItem('client_token')
   }
 
   return { utilisateur, estConnecte, login, logout }

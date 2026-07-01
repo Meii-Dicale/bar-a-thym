@@ -11,11 +11,12 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = ref(utilisateur.value !== null)
 
   async function login(email: string, motDePasse: string): Promise<boolean> {
-    const user = await authService.login(email, motDePasse)
-    if (user) {
-      utilisateur.value = user
+    const result = await authService.login(email, motDePasse)
+    if (result) {
+      utilisateur.value = result.utilisateur
       isAuthenticated.value = true
-      localStorage.setItem('barmaker_user', JSON.stringify(user))
+      localStorage.setItem('barmaker_user', JSON.stringify(result.utilisateur))
+      localStorage.setItem('barmaker_token', result.token)
       return true
     }
     return false
@@ -25,6 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
     utilisateur.value = null
     isAuthenticated.value = false
     localStorage.removeItem('barmaker_user')
+    localStorage.removeItem('barmaker_token')
   }
 
   return { utilisateur, isAuthenticated, login, logout }

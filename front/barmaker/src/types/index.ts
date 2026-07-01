@@ -14,6 +14,11 @@ export interface Ingredient {
   disponible: boolean
 }
 
+export interface IngredientCocktail {
+  nom: string
+  quantite: string | null
+}
+
 export interface Cocktail {
   id: number
   apiId: string
@@ -22,7 +27,7 @@ export interface Cocktail {
   categorie: string | null
   actif: boolean
   instructions: string | null
-  ingredients: string[]
+  ingredients: IngredientCocktail[]
 }
 
 export interface TaillePrix {

@@ -33,6 +33,7 @@ public class CocktailService {
         return cocktailMapper.toDTO(cocktailRepository.findAvecTousIngredentsDisponibles());
     }
 
+    @Transactional(readOnly = true)
     public CocktailResponseDTO find(Long id) {
         Cocktail cocktail = null;
         if (cocktailRepository.findById(id).isPresent()) {

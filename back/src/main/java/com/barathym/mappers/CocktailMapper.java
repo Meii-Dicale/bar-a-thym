@@ -2,6 +2,7 @@ package com.barathym.mappers;
 
 import com.barathym.dtos.CocktailRequestDTO;
 import com.barathym.dtos.CocktailResponseDTO;
+import com.barathym.dtos.IngredientCocktailDTO;
 import com.barathym.entites.Cocktail;
 import com.barathym.entites.CocktailIngredient;
 import org.mapstruct.Mapper;
@@ -20,10 +21,12 @@ public interface CocktailMapper {
 
     Cocktail toEntity(CocktailRequestDTO dto);
 
-    default List<String> extractIngredients(Cocktail cocktail) {
+    default List<IngredientCocktailDTO> extractIngredients(Cocktail cocktail) {
         if (cocktail.getCocktailIngredients() == null) return List.of();
         return cocktail.getCocktailIngredients().stream()
-                .map(ci -> ci.getIngredient().getNom())
+                .map(ci -> new IngredientCocktailDTO(
+                        ci.getIngredient().getNom(),
+                        ci.getQuantite()))
                 .collect(Collectors.toList());
     }
 }

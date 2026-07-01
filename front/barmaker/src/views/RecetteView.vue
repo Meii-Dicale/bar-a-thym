@@ -27,7 +27,21 @@
           <h2 class="font-fraunces mb-4" style="font-size: 22px; color: #1F2421;">
             Ingrédients
           </h2>
-          <v-table>
+          <v-table density="compact">
+            <tbody>
+              <tr v-for="ing in cocktail.ingredients" :key="ing.nom">
+                <td style="color: #1F2421; font-weight: 500;">{{ ing.nom }}</td>
+                <td style="color: #C98E5F; font-weight: 600; text-align: right;">
+                  {{ ing.quantite ?? '' }}
+                </td>
+              </tr>
+            </tbody>
+          </v-table>
+
+          <h2 class="font-fraunces mt-8 mb-3" style="font-size: 18px; color: #1F2421;">
+            Tarifs
+          </h2>
+          <v-table density="compact">
             <tbody>
               <tr v-for="tp in taillesPrix" :key="tp.id">
                 <td style="color: #1F2421;">Taille {{ tp.taille }}</td>

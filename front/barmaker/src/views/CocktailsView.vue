@@ -155,7 +155,7 @@ const cocktailsFiltres = computed(() => {
     liste = liste.filter(c => c.nom.toLowerCase().includes(terme))
   }
   if (ingredientSelectionne.value) {
-    liste = liste.filter(c => c.ingredients?.includes(ingredientSelectionne.value!))
+    liste = liste.filter(c => c.ingredients?.some(i => i.nom === ingredientSelectionne.value))
   }
   return liste
 })

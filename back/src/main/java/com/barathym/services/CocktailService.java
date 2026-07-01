@@ -7,6 +7,7 @@ import com.barathym.mappers.CocktailMapper;
 import com.barathym.repositories.CocktailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,14 +18,17 @@ public class CocktailService {
     private final CocktailRepository cocktailRepository;
     private final CocktailMapper cocktailMapper;
 
+    @Transactional(readOnly = true)
     public List<CocktailResponseDTO> findAll() {
         return cocktailMapper.toDTO(cocktailRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public List<CocktailResponseDTO> findActifs() {
         return cocktailMapper.toDTO(cocktailRepository.findByActifTrue());
     }
 
+    @Transactional(readOnly = true)
     public List<CocktailResponseDTO> findDisponibles() {
         return cocktailMapper.toDTO(cocktailRepository.findAvecTousIngredentsDisponibles());
     }

@@ -1,5 +1,7 @@
 package com.barathym.dtos;
 
+import java.util.List;
+
 public record CocktailResponseDTO(
     Long id,
     String apiId,
@@ -7,5 +9,6 @@ public record CocktailResponseDTO(
     String imageUrl,
     String categorie,
     Boolean actif,
-    String instructions
+    String instructions,
+    List<String> ingredients
 ) {}

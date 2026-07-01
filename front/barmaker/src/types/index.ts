@@ -22,6 +22,7 @@ export interface Cocktail {
   categorie: string | null
   actif: boolean
   instructions: string | null
+  ingredients: string[]
 }
 
 export interface TaillePrix {

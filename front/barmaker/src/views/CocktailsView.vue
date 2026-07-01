@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+  <div ref="conteneur" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
 
     <div class="d-flex align-center justify-space-between" style="flex-shrink: 0; margin-bottom: 16px;">
       <h1 class="font-fraunces" style="font-size: 36px; color: #1F2421;">
@@ -115,12 +115,20 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useCocktailStore } from '@/stores/useCocktailStore'
 import { useIngredientStore } from '@/stores/useIngredientStore'
 import AppPagination from '@/components/AppPagination.vue'
+import { useSwipe } from '@/composables/useSwipe'
 
 const PAR_PAGE = 12
 
 const store = useCocktailStore()
 const ingredientStore = useIngredientStore()
 const page = ref(1)
+const conteneur = ref<HTMLElement | null>(null)
+
+useSwipe(
+  conteneur,
+  () => { if (page.value < totalPages.value) page.value++ },
+  () => { if (page.value > 1) page.value-- }
+)
 const recherche = ref('')
 const ingredientSelectionne = ref<string | null>(null)
 const filtresOuverts = ref(false)

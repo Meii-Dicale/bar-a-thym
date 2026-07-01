@@ -60,17 +60,20 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCommandeStore } from '@/stores/useCommandeStore'
 import { useAuthStore } from '@/stores/useAuthStore'
 
 const store = useCommandeStore()
 const authStore = useAuthStore()
+const router = useRouter()
 
 onMounted(() => store.fetchEnAttente())
 
 async function prendreEnCharge(commandeId: number) {
   if (!authStore.utilisateur) return
   await store.prendreEnCharge(commandeId, authStore.utilisateur.id)
+  router.push(`/commandes/${commandeId}`)
 }
 
 function refuser(commandeId: number) {

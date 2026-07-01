@@ -42,7 +42,7 @@ class CocktailServiceTest {
         cocktail.setNom("Mojito");
         cocktail.setActif(true);
 
-        responseDTO = new CocktailResponseDTO(1L, "co_001", "Mojito", null, "Cocktail", true, null, List.of());
+        responseDTO = new CocktailResponseDTO(1L, "co_001", "Mojito", null, "Cocktail", true, null, List.of(), false);
         requestDTO = new CocktailRequestDTO("co_001", "Mojito", null, "Cocktail", true, null);
     }
 

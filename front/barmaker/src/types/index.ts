@@ -28,6 +28,7 @@ export interface Cocktail {
   actif: boolean
   instructions: string | null
   ingredients: IngredientCocktail[]
+  aPrix: boolean
 }
 
 export interface TaillePrix {

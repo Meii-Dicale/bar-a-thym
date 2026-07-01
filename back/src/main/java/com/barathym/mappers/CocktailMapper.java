@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public interface CocktailMapper {
 
     @Mapping(target = "ingredients", expression = "java(extractIngredients(cocktail))")
+    @Mapping(target = "aPrix", expression = "java(cocktail.getTaillesPrix() != null && !cocktail.getTaillesPrix().isEmpty())")
     CocktailResponseDTO toDTO(Cocktail cocktail);
 
     List<CocktailResponseDTO> toDTO(List<Cocktail> cocktails);

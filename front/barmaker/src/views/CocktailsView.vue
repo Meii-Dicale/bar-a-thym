@@ -68,7 +68,12 @@
           cols="12" sm="6" md="4" lg="3"
           style="padding: 8px;"
         >
-          <v-card rounded="xl" elevation="0" border>
+          <v-card
+            rounded="xl"
+            elevation="0"
+            border
+            :style="cocktail.actif && !cocktail.aPrix ? 'border-color: #C98E5F !important; border-width: 2px !important;' : ''"
+          >
             <v-img
               :src="cocktail.imageUrl ?? ''"
               height="120"

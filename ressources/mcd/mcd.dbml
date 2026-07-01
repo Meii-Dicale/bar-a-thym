@@ -26,6 +26,7 @@ Table COCKTAIL {
   categorie   varchar
   actif         boolean     [default: false, note: "Toggle barman — visible sur la carte"]
   instructions  text        [note: "Recette issue de l'API (strInstructionsFR)"]
+  alcoolise     boolean     [note: "Issu de l'API (strAlcoholic)"]
 }
 
 Table COCKTAIL_INGREDIENT {
@@ -49,7 +50,7 @@ Table COMMANDE {
   id          integer     [pk, increment]
   client_id   integer     [ref: > UTILISATEUR.id]
   barmaker_id integer     [ref: > UTILISATEUR.id, note: "Nullable — assigné au Prendre en charge"]
-  statut      varchar     [note: "ENUM: COMMANDEE | EN_COURS | TERMINEE"]
+  statut      varchar     [note: "ENUM: COMMANDEE | EN_COURS | TERMINEE | ANNULEE"]
   total       decimal
   cree_le     timestamp
 }

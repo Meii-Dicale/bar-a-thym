@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
 import LoginView from '@/views/LoginView.vue'
+import InscriptionView from '@/views/InscriptionView.vue'
 import ClientLayout from '@/layouts/ClientLayout.vue'
 import AccueilView from '@/views/AccueilView.vue'
 import PanierView from '@/views/PanierView.vue'
@@ -10,7 +11,8 @@ import CommandeDetailView from '@/views/CommandeDetailView.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/login', component: LoginView },
+    { path: '/login',       component: LoginView       },
+    { path: '/inscription', component: InscriptionView },
     {
       path: '/',
       component: ClientLayout,

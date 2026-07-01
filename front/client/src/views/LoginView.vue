@@ -23,6 +23,16 @@
         <v-card width="100%" max-width="360" rounded="xl" elevation="2" class="pa-2">
           <v-card-text class="pa-6">
             <v-alert
+              v-if="inscrit"
+              type="success"
+              variant="tonal"
+              rounded="lg"
+              class="mb-5"
+            >
+              Compte créé ! Connectez-vous.
+            </v-alert>
+
+            <v-alert
               v-if="erreur"
               type="error"
               variant="tonal"
@@ -57,6 +67,15 @@
             >
               Accéder à la carte
             </v-btn>
+
+            <div class="text-center mt-5">
+              <span style="font-size: 13px; color: rgba(31,36,33,0.6);">
+                Pas encore de compte ?
+              </span>
+              <v-btn variant="text" color="primary" size="small" to="/inscription">
+                S'inscrire
+              </v-btn>
+            </div>
           </v-card-text>
         </v-card>
       </div>
@@ -66,15 +85,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 
 const email = ref('')
 const erreur = ref('')
 const chargement = ref(false)
+const inscrit = ref(route.query.inscrit === '1')
 
 async function connexion() {
   erreur.value = ''

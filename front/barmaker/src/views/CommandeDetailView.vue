@@ -10,9 +10,12 @@
       Retour aux commandes
     </v-btn>
 
-    <h1 class="font-fraunces mb-8" style="font-size: 40px; color: #1F2421;">
+    <h1 class="font-fraunces mb-1" style="font-size: 40px; color: #1F2421;">
       Détail commande n°{{ route.params.id }}
     </h1>
+    <p v-if="store.commandeSelectionnee" style="font-size: 13px; color: rgba(31,36,33,0.45); margin-bottom: 32px;">
+      {{ formatDate(store.commandeSelectionnee.creeLe) }}
+    </p>
 
     <v-progress-linear v-if="store.loading" indeterminate color="primary" class="mb-4" />
 
@@ -27,14 +30,15 @@
         <v-card-text class="pa-6">
           <div class="d-flex align-center justify-space-between mb-4">
             <div>
-              <h3 class="font-weight-bold" style="font-size: 18px; color: #1F2421;">
-                {{ ligne.cocktailNom }}
-              </h3>
-              <div class="d-flex" style="gap: 8px; margin-top: 6px; flex-wrap: wrap;">
-                <v-chip size="x-small" variant="tonal" color="primary">
-                  {{ ligne.taillePrixId }}
-                </v-chip>
+              <div class="d-flex align-center" style="gap: 8px;">
+                <h3 class="font-weight-bold" style="font-size: 18px; color: #1F2421;">
+                  {{ ligne.cocktailNom }}
+                </h3>
+                <v-chip size="x-small" variant="tonal" color="secondary">{{ ligne.taille }}</v-chip>
               </div>
+              <p v-if="ligne.note" style="font-size: 12px; color: rgba(31,36,33,0.55); font-style: italic; margin-top: 4px;">
+                « {{ ligne.note }} »
+              </p>
             </div>
             <v-btn
               v-if="ligne.statut !== 'TERMINEE'"
@@ -102,6 +106,13 @@ function estAtteinte(statut: LigneCommande['statut'], etape: LigneCommande['stat
 
 async function avancer(ligneId: number) {
   await store.avancerLigne(ligneId)
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleString('fr-FR', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  })
 }
 
 onMounted(() => {

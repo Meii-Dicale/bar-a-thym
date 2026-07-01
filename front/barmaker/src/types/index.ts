@@ -44,6 +44,7 @@ export interface LigneCommande {
   cocktailId: number
   cocktailNom: string
   taillePrixId: number
+  taille: 'S' | 'M' | 'L'
   note: string | null
   statut: 'PREPARATION' | 'ASSEMBLAGE' | 'DRESSAGE' | 'TERMINEE'
 }
@@ -52,7 +53,7 @@ export interface Commande {
   id: number
   clientId: number
   barmakerId: number | null
-  statut: 'COMMANDEE' | 'EN_COURS' | 'TERMINEE'
+  statut: 'COMMANDEE' | 'EN_COURS' | 'TERMINEE' | 'ANNULEE'
   total: number
   creeLe: string
   lignes: LigneCommande[]

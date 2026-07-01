@@ -101,6 +101,13 @@ public class CommandeService {
         }
     }
 
+    public void annuler(Long id) {
+        commandeRepository.findById(id).ifPresent(commande -> {
+            commande.setStatut(Commande.Statut.ANNULEE);
+            commandeRepository.save(commande);
+        });
+    }
+
     public void remove(Long id) {
         commandeRepository.deleteById(id);
     }

@@ -99,7 +99,8 @@ function couleurStatut(statut: Commande['statut']): string {
   const map: Record<Commande['statut'], string> = {
     COMMANDEE: 'warning',
     EN_COURS:  'primary',
-    TERMINEE:  'success'
+    TERMINEE:  'success',
+    ANNULEE:   'error'
   }
   return map[statut]
 }

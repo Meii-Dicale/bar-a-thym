@@ -1,9 +1,9 @@
 <template>
-  <v-app style="background: #F9F5EE;">
-    <v-main>
+  <v-app style="background: #F9F5EE; min-height: 100dvh;">
+    <v-main style="background: #F9F5EE;">
       <div
         class="d-flex flex-column align-center justify-center pa-6"
-        style="min-height: 100vh;"
+        style="min-height: 100dvh;"
       >
         <div class="text-center mb-8">
           <v-avatar color="primary" size="80" rounded="xl" class="mb-6">

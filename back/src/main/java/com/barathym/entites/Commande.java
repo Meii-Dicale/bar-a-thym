@@ -43,6 +43,7 @@ public class Commande {
     public enum Statut {
         COMMANDEE,
         EN_COURS,
-        TERMINEE
+        TERMINEE,
+        ANNULEE
     }
 }

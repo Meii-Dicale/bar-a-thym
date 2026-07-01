@@ -14,5 +14,8 @@ export const commandeService = {
     api.patch(`/commandes/${commandeId}/prendre-en-charge/${barmakerId}`),
 
   avancerLigne: (ligneId: number) =>
-    api.patch(`/lignes-commande/${ligneId}/avancer`)
+    api.patch(`/lignes-commande/${ligneId}/avancer`),
+
+  annuler: (commandeId: number) =>
+    api.patch(`/commandes/${commandeId}/annuler`)
 }

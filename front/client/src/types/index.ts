@@ -46,7 +46,7 @@ export interface Commande {
   id: number
   clientId: number
   barmakerId: number | null
-  statut: 'COMMANDEE' | 'EN_COURS' | 'TERMINEE'
+  statut: 'COMMANDEE' | 'EN_COURS' | 'TERMINEE' | 'ANNULEE'
   total: number
   creeLe: string
   lignes: LigneCommande[]
@@ -72,5 +72,6 @@ export const STATUT_LIGNE_LABELS: Record<LigneCommande['statut'], string> = {
 export const STATUT_COMMANDE_LABELS: Record<Commande['statut'], string> = {
   COMMANDEE: 'En attente',
   EN_COURS:  'En cours',
-  TERMINEE:  'Prête'
+  TERMINEE:  'Prête',
+  ANNULEE:   'Annulée'
 }

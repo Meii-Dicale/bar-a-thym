@@ -40,6 +40,11 @@ export const useCommandeStore = defineStore('commandes', () => {
     }
   }
 
+  async function annulerCommande(commandeId: number) {
+    await commandeService.annuler(commandeId)
+    commandesEnAttente.value = commandesEnAttente.value.filter(c => c.id !== commandeId)
+  }
+
   return {
     commandesEnAttente,
     commandesEnCours,
@@ -49,6 +54,7 @@ export const useCommandeStore = defineStore('commandes', () => {
     fetchMesCommandes,
     fetchDetail,
     prendreEnCharge,
-    avancerLigne
+    avancerLigne,
+    annulerCommande
   }
 })

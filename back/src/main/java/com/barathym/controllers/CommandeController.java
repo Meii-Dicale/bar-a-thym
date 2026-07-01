@@ -51,6 +51,12 @@ public class CommandeController {
         return ResponseEntity.ok("{\"message\": \"Commande prise en charge\"}");
     }
 
+    @PatchMapping("/{id}/annuler")
+    public ResponseEntity<String> annulerCommande(@PathVariable Long id) {
+        commandeService.annuler(id);
+        return ResponseEntity.ok("{\"message\": \"Commande annulée\"}");
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCommande(@PathVariable Long id) {
         commandeService.remove(id);

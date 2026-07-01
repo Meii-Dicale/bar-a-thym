@@ -49,7 +49,7 @@ public class CocktailService {
                     CocktailResponseDTO dto = cocktailMapper.toDTO(c);
                     boolean aPrix = taillePrixRepository.findByCocktailId(id).isEmpty() == false;
                     return new CocktailResponseDTO(dto.id(), dto.apiId(), dto.nom(), dto.imageUrl(),
-                            dto.categorie(), dto.actif(), dto.instructions(), dto.ingredients(), aPrix);
+                            dto.categorie(), dto.actif(), dto.instructions(), dto.alcoolise(), dto.ingredients(), aPrix);
                 })
                 .orElse(null);
     }
@@ -59,7 +59,7 @@ public class CocktailService {
         return dtos.stream()
                 .map(dto -> new CocktailResponseDTO(
                         dto.id(), dto.apiId(), dto.nom(), dto.imageUrl(),
-                        dto.categorie(), dto.actif(), dto.instructions(), dto.ingredients(),
+                        dto.categorie(), dto.actif(), dto.instructions(), dto.alcoolise(), dto.ingredients(),
                         avecPrix.contains(dto.id())))
                 .collect(Collectors.toList());
     }

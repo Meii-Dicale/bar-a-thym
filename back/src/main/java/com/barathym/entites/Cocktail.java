@@ -34,6 +34,9 @@ public class Cocktail {
     @Column(name = "CO_Instructions", columnDefinition = "TEXT")
     private String instructions;
 
+    @Column(name = "CO_Alcoolise")
+    private Boolean alcoolise;
+
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CocktailIngredient> cocktailIngredients;
 

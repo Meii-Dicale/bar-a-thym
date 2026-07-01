@@ -26,7 +26,8 @@ CREATE TABLE cocktails (
     CO_ImageUrl     VARCHAR(500),
     CO_Categorie    VARCHAR(255),
     CO_Actif        BOOLEAN NOT NULL DEFAULT FALSE,
-    CO_Instructions TEXT
+    CO_Instructions TEXT,
+    CO_Alcoolise    BOOLEAN
 );
 
 CREATE TABLE cocktail_ingredients (

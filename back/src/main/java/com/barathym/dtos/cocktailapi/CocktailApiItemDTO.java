@@ -16,6 +16,7 @@ public class CocktailApiItemDTO {
     @JsonProperty("strCategory")    private String strCategory;
     @JsonProperty("strDrinkThumb")  private String strDrinkThumb;
     @JsonProperty("strInstructionsFR") private String strInstructionsFR;
+    @JsonProperty("strAlcoholic")   private String strAlcoholic;
 
     @JsonProperty("strIngredient1")  private String strIngredient1;
     @JsonProperty("strIngredient2")  private String strIngredient2;

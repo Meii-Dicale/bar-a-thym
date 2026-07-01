@@ -10,6 +10,7 @@ public record CocktailResponseDTO(
     String categorie,
     Boolean actif,
     String instructions,
+    Boolean alcoolise,
     List<IngredientCocktailDTO> ingredients,
     Boolean aPrix
 ) {}

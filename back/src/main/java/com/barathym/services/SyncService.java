@@ -48,6 +48,7 @@ public class SyncService {
         cocktail.setImageUrl(item.getStrDrinkThumb());
         cocktail.setCategorie(item.getStrCategory());
         cocktail.setInstructions(item.getStrInstructionsFR());
+        cocktail.setAlcoolise("Alcoholic".equalsIgnoreCase(item.getStrAlcoholic()));
         cocktail = cocktailRepository.save(cocktail);
 
         for (CocktailApiItemDTO.IngredientMesure im : item.getIngredientsMesures()) {

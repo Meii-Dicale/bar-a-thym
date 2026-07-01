@@ -6,6 +6,11 @@
         {{ vue === 'disponibles' ? 'Cocktails disponibles' : 'Cocktails en ligne' }}
       </h1>
       <div class="d-flex align-center" style="gap: 8px;">
+        <v-btn-toggle v-model="filtreAlcool" mandatory density="compact" rounded="lg" color="secondary">
+          <v-btn value="tout" size="small">Tout</v-btn>
+          <v-btn value="avec" size="small">Avec alcool</v-btn>
+          <v-btn value="sans" size="small">Sans alcool</v-btn>
+        </v-btn-toggle>
         <v-btn-toggle v-model="vue" mandatory density="compact" rounded="lg" color="primary">
           <v-btn value="disponibles" size="small">Disponibles</v-btn>
           <v-btn value="en-ligne" size="small">En ligne</v-btn>
@@ -220,6 +225,7 @@ const ingredientSelectionne = ref<string | null>(null)
 const filtresOuverts = ref(false)
 const conteneur = ref<HTMLElement | null>(null)
 const vue = ref<'disponibles' | 'en-ligne'>('disponibles')
+const filtreAlcool = ref<'tout' | 'avec' | 'sans'>('tout')
 
 const dialogPrix = ref(false)
 const cocktailPrix = ref<Cocktail | null>(null)
@@ -280,6 +286,11 @@ const cocktailsFiltres = computed(() => {
   if (ingredientSelectionne.value) {
     liste = liste.filter(c => c.ingredients?.some(i => i.nom === ingredientSelectionne.value))
   }
+  if (filtreAlcool.value === 'avec') {
+    liste = liste.filter(c => c.alcoolise === true)
+  } else if (filtreAlcool.value === 'sans') {
+    liste = liste.filter(c => c.alcoolise === false)
+  }
   return liste
 })
 
@@ -289,7 +300,7 @@ watch(vue, (v) => {
   else store.fetchDisponibles()
 })
 
-watch([recherche, ingredientSelectionne], () => { page.value = 1 })
+watch([recherche, ingredientSelectionne, filtreAlcool], () => { page.value = 1 })
 
 const totalPages = computed(() => Math.ceil(cocktailsFiltres.value.length / PAR_PAGE))
 

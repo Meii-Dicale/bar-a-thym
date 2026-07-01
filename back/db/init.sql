@@ -66,5 +66,6 @@ CREATE TABLE lignes_commande (
 -- ============================================================
 
 INSERT INTO utilisateurs (US_Nom, US_Prenom, US_Email, US_MotDePasse, US_Role) VALUES
-    ('Admin', 'Bar', 'barmaker@barathym.fr', 'barmaker123', 'BARMAKER'),
-    ('Dupont', 'Marie', 'marie@barathym.fr',  'client123',   'CLIENT');
+    ('Admin',  'Bar',   'barmaker@barathym.fr', 'barmaker123', 'BARMAKER'),
+    ('Test',   'Barman','barman@test.fr',        'test123!',    'BARMAKER'),
+    ('Dupont', 'Marie', 'marie@barathym.fr',     'client123',   'CLIENT');

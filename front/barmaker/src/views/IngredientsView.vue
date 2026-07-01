@@ -14,7 +14,7 @@
 
     <v-row>
       <v-col
-        v-for="ingredient in store.ingredients"
+        v-for="ingredient in ingredientsPage"
         :key="ingredient.id"
         cols="12" sm="6" md="4" lg="3"
       >
@@ -46,14 +46,27 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <AppPagination v-model:page="page" :total-pages="totalPages" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useIngredientStore } from '@/stores/useIngredientStore'
+import AppPagination from '@/components/AppPagination.vue'
+
+const PAR_PAGE = 12
 
 const store = useIngredientStore()
+const page = ref(1)
+
+const totalPages = computed(() => Math.ceil(store.ingredients.length / PAR_PAGE))
+
+const ingredientsPage = computed(() => {
+  const debut = (page.value - 1) * PAR_PAGE
+  return store.ingredients.slice(debut, debut + PAR_PAGE)
+})
 
 onMounted(() => store.fetchAll())
 </script>

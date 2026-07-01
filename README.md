@@ -42,8 +42,11 @@ bar-a-thym/
 # 1. Copier le fichier d'environnement
 cp .env.example .env
 
-# 2. Construire et démarrer tous les services
+# 2a. Mode production (build optimisé, Nginx)
 docker compose up --build
+
+# 2b. Mode développement (hot reload Vite, modifications sans rebuild)
+docker compose -f docker-compose.dev.yml up --build
 ```
 
 | Service  | URL                       |

@@ -1,13 +1,13 @@
 <template>
-  <v-layout>
-    <v-navigation-drawer permanent width="200" color="#F3EFE7">
-      <div class="pa-6 d-flex flex-column" style="gap: 48px; height: 100%;">
+  <v-layout style="height: 100vh; overflow: hidden;">
+    <v-navigation-drawer permanent width="240" color="#F3EFE7" style="height: 100vh;">
+      <div class="pa-5 d-flex flex-column" style="gap: 40px; height: 100%;">
 
         <div class="d-flex align-center" style="gap: 10px;">
-          <v-avatar color="primary" size="48" rounded="lg">
+          <v-avatar color="primary" size="44" rounded="lg">
             <v-icon icon="mdi-leaf" color="white" />
           </v-avatar>
-          <span class="font-fraunces font-weight-bold font-italic" style="font-size: 18px; color: #1F2421;">
+          <span class="font-fraunces font-weight-bold font-italic" style="font-size: 17px; color: #1F2421; white-space: nowrap;">
             Bar à Thym
           </span>
         </div>
@@ -21,6 +21,7 @@
             :title="item.label"
             active-color="primary"
             rounded="lg"
+            style="white-space: nowrap;"
           />
         </v-list>
 
@@ -41,7 +42,7 @@
       </div>
     </v-navigation-drawer>
 
-    <v-main style="background: #F9F5EE; min-height: 100vh;">
+    <v-main style="background: #F9F5EE; overflow-y: auto; height: 100vh;">
       <div class="pa-8">
         <router-view />
       </div>
@@ -55,10 +56,10 @@ import { useCocktailStore } from '@/stores/useCocktailStore'
 const cocktailStore = useCocktailStore()
 
 const navItems = [
-  { to: '/ingredients',   icon: 'mdi-leaf-circle-outline', label: 'Ingredients'    },
-  { to: '/cocktails',     icon: 'mdi-cup',                 label: 'Cocktails'      },
-  { to: '/commandes',     icon: 'mdi-clipboard-list',      label: 'Commandes'      },
-  { to: '/mes-commandes', icon: 'mdi-circle-outline',      label: 'Mes commandes'  }
+  { to: '/ingredients',   icon: 'mdi-leaf-circle-outline', label: 'Ingrédients'   },
+  { to: '/cocktails',     icon: 'mdi-cup',                 label: 'Cocktails'     },
+  { to: '/commandes',     icon: 'mdi-clipboard-list',      label: 'Commandes'     },
+  { to: '/mes-commandes', icon: 'mdi-circle-outline',      label: 'Mes commandes' }
 ]
 </script>
 

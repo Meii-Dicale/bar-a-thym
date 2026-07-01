@@ -1,9 +1,10 @@
 <template>
   <v-layout style="height: 100vh; overflow: hidden;">
-    <v-navigation-drawer permanent width="240" color="#F3EFE7" style="height: 100vh;">
-      <div class="pa-5 d-flex flex-column" style="gap: 40px; height: 100%;">
 
-        <div class="d-flex align-center" style="gap: 10px;">
+    <v-navigation-drawer permanent width="240" color="#F3EFE7" style="height: 100vh;">
+      <div style="height: 100%; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
+
+        <div class="d-flex align-center" style="gap: 10px; flex-shrink: 0; margin-bottom: 32px;">
           <v-avatar color="primary" size="44" rounded="lg">
             <v-icon icon="mdi-leaf" color="white" />
           </v-avatar>
@@ -12,7 +13,7 @@
           </span>
         </div>
 
-        <v-list nav density="compact" :lines="false">
+        <v-list nav density="compact" :lines="false" style="flex-shrink: 0; padding: 0;">
           <v-list-item
             v-for="item in navItems"
             :key="item.to"
@@ -25,28 +26,26 @@
           />
         </v-list>
 
-        <div class="mt-auto">
-          <div
-            class="pa-4 rounded-xl"
-            style="background: #C98E5F; color: white;"
-          >
-            <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; opacity: 0.8;">
-              Total cocktails
-            </div>
-            <div class="font-fraunces" style="font-size: 28px; font-weight: 700;">
-              {{ cocktailStore.cocktails.length }}
-            </div>
+        <div style="flex: 1;" />
+
+        <div class="pa-4 rounded-xl" style="background: #C98E5F; color: white; flex-shrink: 0;">
+          <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; opacity: 0.8;">
+            Total cocktails
+          </div>
+          <div class="font-fraunces" style="font-size: 28px; font-weight: 700;">
+            {{ cocktailStore.cocktails.length }}
           </div>
         </div>
 
       </div>
     </v-navigation-drawer>
 
-    <v-main style="background: #F9F5EE; overflow-y: auto; height: 100vh;">
-      <div class="pa-8">
+    <v-main style="background: #F9F5EE; height: 100vh; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="flex: 1; min-height: 0; overflow: hidden; padding: 32px; display: flex; flex-direction: column;">
         <router-view />
       </div>
     </v-main>
+
   </v-layout>
 </template>
 
@@ -64,4 +63,7 @@ const navItems = [
 </script>
 
 <style scoped>
+:deep(.v-navigation-drawer__content) {
+  overflow: hidden !important;
+}
 </style>

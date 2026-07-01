@@ -4,6 +4,8 @@ import type { Cocktail, TaillePrix } from '@/types'
 export const cocktailService = {
   findAll: () => api.get<Cocktail[]>('/cocktails').then(r => r.data),
 
+  findDisponibles: () => api.get<Cocktail[]>('/cocktails/disponibles').then(r => r.data),
+
   findById: (id: number) => api.get<Cocktail>(`/cocktails/${id}`).then(r => r.data),
 
   toggleActif: (id: number) => api.patch<void>(`/cocktails/${id}/actif`),

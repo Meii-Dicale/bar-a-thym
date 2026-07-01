@@ -126,7 +126,8 @@ cd front/client && npm test
 | GET     | `/api/ingredients`                                  | Liste tous les ingrédients         |
 | PATCH   | `/api/ingredients/{id}/disponible`                  | Active/désactive un ingrédient     |
 | GET     | `/api/cocktails`                                    | Liste tous les cocktails           |
-| GET     | `/api/cocktails/actifs`                             | Liste les cocktails disponibles    |
+| GET     | `/api/cocktails/actifs`                             | Liste les cocktails activés        |
+| GET     | `/api/cocktails/disponibles`                        | Cocktails avec tous ingrédients disponibles |
 | PATCH   | `/api/cocktails/{id}/actif`                         | Active/désactive un cocktail       |
 | GET     | `/api/tailles-prix/cocktail/{cocktailId}`           | Prix S/M/L d'un cocktail          |
 | POST    | `/api/commandes`                                    | Passer une commande                |

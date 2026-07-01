@@ -22,11 +22,17 @@ export const useCocktailStore = defineStore('cocktails', () => {
     loading.value = false
   }
 
+  async function fetchDisponibles() {
+    loading.value = true
+    cocktails.value = await cocktailService.findDisponibles()
+    loading.value = false
+  }
+
   async function toggleActif(id: number) {
     await cocktailService.toggleActif(id)
     const c = cocktails.value.find(c => c.id === id)
     if (c) c.actif = !c.actif
   }
 
-  return { cocktails, cocktailsAvecStatut, loading, fetchAll, toggleActif }
+  return { cocktails, cocktailsAvecStatut, loading, fetchAll, fetchDisponibles, toggleActif }
 })

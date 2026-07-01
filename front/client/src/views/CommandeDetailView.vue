@@ -32,20 +32,29 @@
           border
         >
           <v-card-text class="pa-4">
-            <div class="d-flex justify-space-between align-center mb-3">
-              <span class="font-weight-semibold" style="color: #1F2421;">
-                {{ ligne.cocktailNom }}
-              </span>
+            <div class="d-flex justify-space-between align-center mb-1">
+              <div>
+                <span class="font-weight-semibold" style="color: #1F2421;">
+                  {{ ligne.cocktailNom }}
+                </span>
+                <v-chip size="x-small" variant="tonal" color="secondary" class="ml-2">
+                  {{ ligne.taille }}
+                </v-chip>
+              </div>
               <v-chip size="x-small" :color="couleurEtape(ligne.statut)" variant="tonal">
                 {{ STATUT_LIGNE_LABELS[ligne.statut] }}
               </v-chip>
             </div>
+            <p v-if="ligne.note" style="font-size: 12px; color: rgba(31,36,33,0.55); margin-bottom: 8px; font-style: italic;">
+              « {{ ligne.note }} »
+            </p>
 
             <v-progress-linear
               :model-value="progressionLigne(ligne.statut)"
               color="primary"
               height="3"
               rounded
+              class="mt-2"
             />
           </v-card-text>
         </v-card>

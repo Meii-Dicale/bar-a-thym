@@ -69,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCocktailStore } from '@/stores/useCocktailStore'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -77,6 +78,12 @@ import logo from '@/assets/logo.png'
 const router = useRouter()
 const cocktailStore = useCocktailStore()
 const authStore = useAuthStore()
+
+onMounted(() => {
+  if (cocktailStore.cocktails.length === 0) {
+    cocktailStore.fetchActifs()
+  }
+})
 
 function deconnexion() {
   authStore.logout()

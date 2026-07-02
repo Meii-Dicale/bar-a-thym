@@ -3,15 +3,21 @@
     <h2 class="font-fraunces mb-1" style="font-size: 28px; color: #1F2421;">
       Notre carte
     </h2>
-    <p class="mb-6" style="color: rgba(31,36,33,0.55); font-size: 14px;">
-      {{ store.cocktails.length }} cocktails disponibles
+    <p class="mb-4" style="color: rgba(31,36,33,0.55); font-size: 14px;">
+      {{ cocktailsFiltres.length }} cocktails disponibles
     </p>
+
+    <v-btn-toggle v-model="filtreAlcool" mandatory density="compact" rounded="lg" color="secondary" class="mb-6">
+      <v-btn value="tout" size="small">Tout</v-btn>
+      <v-btn value="avec" size="small">Avec alcool</v-btn>
+      <v-btn value="sans" size="small">Sans alcool</v-btn>
+    </v-btn-toggle>
 
     <v-progress-linear v-if="store.loading" indeterminate color="primary" class="mb-4" />
 
     <div style="display: flex; flex-direction: column; gap: 12px;">
       <v-card
-        v-for="cocktail in store.cocktails"
+        v-for="cocktail in cocktailsFiltres"
         :key="cocktail.id"
         rounded="xl"
         elevation="0"
@@ -107,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useCocktailStore } from '@/stores/useCocktailStore'
 import { usePanierStore } from '@/stores/usePanierStore'
 import { cocktailService } from '@/services/cocktailService'
@@ -121,6 +127,13 @@ const cocktailSelectionne = ref<Cocktail | null>(null)
 const taillesPrix = ref<TaillePrix[]>([])
 const taillePrixSelectionnee = ref<TaillePrix | null>(null)
 const note = ref('')
+const filtreAlcool = ref<'tout' | 'avec' | 'sans'>('tout')
+
+const cocktailsFiltres = computed(() => {
+  if (filtreAlcool.value === 'avec') return store.cocktails.filter(c => c.alcoolise === true)
+  if (filtreAlcool.value === 'sans') return store.cocktails.filter(c => c.alcoolise === false)
+  return store.cocktails
+})
 
 onMounted(() => store.fetchActifs())
 

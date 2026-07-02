@@ -29,6 +29,7 @@ export interface Cocktail {
   categorie: string | null
   actif: boolean
   instructions: string | null
+  alcoolise: boolean | null
 }
 
 export interface LigneCommande {

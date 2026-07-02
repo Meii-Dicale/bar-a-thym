@@ -1,20 +1,18 @@
 <template>
   <v-app style="background: #F9F5EE; min-height: 100dvh;">
-    <v-main style="background: #F9F5EE;">
+    <v-main
+      :style="{
+        background: `linear-gradient(rgba(249,245,238,0.78), rgba(249,245,238,0.78)), url(${woodBg}) center / cover fixed`
+      }"
+    >
       <div
         class="d-flex flex-column align-center justify-center pa-6"
         style="min-height: 100dvh;"
       >
         <div class="text-center mb-8">
-          <v-avatar color="primary" size="80" rounded="xl" class="mb-6">
-            <v-icon icon="mdi-leaf" color="white" size="40" />
+          <v-avatar size="120" class="mb-6">
+            <v-img :src="logo" alt="Bar à Thym" />
           </v-avatar>
-          <h1
-            class="font-fraunces font-italic"
-            style="font-size: 36px; color: #1F2421; font-weight: 700;"
-          >
-            Bar à Thym
-          </h1>
           <p style="color: rgba(31,36,33,0.55); margin-top: 6px; font-size: 15px;">
             Créer un compte client
           </p>
@@ -95,7 +93,8 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { authService } from '@/services/authService'
-
+import logo from '@/assets/logo.png'
+import woodBg from '@/assets/wood-bg.jpg'
 const router = useRouter()
 
 const form = reactive({

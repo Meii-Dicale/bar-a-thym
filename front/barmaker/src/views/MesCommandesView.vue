@@ -18,7 +18,7 @@
       >
         <v-card rounded="xl" elevation="0" border class="pa-2">
           <v-card-text>
-            <div class="d-flex justify-space-between align-center mb-3">
+            <div class="d-flex justify-space-between align-center mb-1">
               <span class="font-weight-bold" style="font-size: 18px; color: #1F2421;">
                 Commande n°{{ commande.id }}
               </span>
@@ -26,6 +26,9 @@
                 {{ commande.lignes.length }} verre{{ commande.lignes.length > 1 ? 's' : '' }}
               </v-chip>
             </div>
+            <p style="font-size: 12px; color: rgba(31,36,33,0.45); margin-bottom: 12px;">
+              {{ formatDate(commande.creeLe) }}
+            </p>
 
             <ul style="list-style: none; padding: 0; margin: 0 0 12px;">
               <li
@@ -87,6 +90,13 @@ function progression(commande: Commande): number {
   const poids = { PREPARATION: 25, ASSEMBLAGE: 50, DRESSAGE: 75, TERMINEE: 100 }
   const total = commande.lignes.reduce((sum, l) => sum + poids[l.statut], 0)
   return total / commande.lignes.length
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleString('fr-FR', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  })
 }
 </script>
 

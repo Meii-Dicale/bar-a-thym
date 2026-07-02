@@ -64,6 +64,9 @@
         <v-card-title class="font-fraunces pt-4" style="font-size: 22px; color: #1F2421;">
           {{ cocktailSelectionne.nom }}
         </v-card-title>
+        <p v-if="cocktailSelectionne.ingredients?.length" class="px-4 mb-2" style="font-size: 11px; color: rgba(31,36,33,0.5);">
+          {{ cocktailSelectionne.ingredients.map(i => i.nom).join(' — ') }}
+        </p>
         <v-card-text>
           <p class="mb-4" style="font-size: 14px; color: rgba(31,36,33,0.7);">
             Choisissez votre taille :
@@ -141,8 +144,13 @@ async function ouvrirDetail(cocktail: Cocktail) {
   cocktailSelectionne.value = cocktail
   taillePrixSelectionnee.value = null
   note.value = ''
-  taillesPrix.value = await cocktailService.getTaillesPrix(cocktail.id)
   dialogOuvert.value = true
+  const [prix, detail] = await Promise.all([
+    cocktailService.getTaillesPrix(cocktail.id),
+    cocktailService.findById(cocktail.id)
+  ])
+  taillesPrix.value = prix
+  cocktailSelectionne.value = detail
 }
 
 function ajouterAuPanier() {

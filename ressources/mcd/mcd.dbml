@@ -30,13 +30,10 @@ Table COCKTAIL {
 }
 
 Table COCKTAIL_INGREDIENT {
+  id             integer  [pk, increment]
   cocktail_id    integer  [ref: > COCKTAIL.id]
   ingredient_id  integer  [ref: > INGREDIENT.id]
   quantite       varchar  [note: "ex: 6cl, Top up, Plein"]
-
-  indexes {
-    (cocktail_id, ingredient_id) [pk]
-  }
 }
 
 Table TAILLE_PRIX {

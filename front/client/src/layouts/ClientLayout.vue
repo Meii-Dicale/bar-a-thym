@@ -24,12 +24,12 @@
       grow
       style="flex-shrink: 0;"
     >
-      <v-btn value="/" to="/">
+      <v-btn value="/" @click="router.push('/')">
         <v-icon>mdi-cup-outline</v-icon>
         <span style="font-size: 11px;">Carte</span>
       </v-btn>
 
-      <v-btn value="/panier" to="/panier">
+      <v-btn value="/panier" @click="router.push('/panier')">
         <v-badge
           v-if="panierStore.nombreArticles > 0"
           :content="panierStore.nombreArticles"
@@ -41,7 +41,7 @@
         <span style="font-size: 11px;">Panier</span>
       </v-btn>
 
-      <v-btn value="/commandes" to="/commandes">
+      <v-btn value="/commandes" @click="router.push('/commandes')">
         <v-icon>mdi-clipboard-list-outline</v-icon>
         <span style="font-size: 11px;">Commandes</span>
       </v-btn>

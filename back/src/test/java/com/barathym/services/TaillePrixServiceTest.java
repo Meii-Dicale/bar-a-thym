@@ -1,5 +1,6 @@
 package com.barathym.services;
 
+import com.barathym.dtos.DefinirPrixDTO;
 import com.barathym.dtos.TaillePrixRequestDTO;
 import com.barathym.dtos.TaillePrixResponseDTO;
 import com.barathym.entites.Cocktail;
@@ -99,5 +100,27 @@ class TaillePrixServiceTest {
         taillePrixService.remove(1L);
 
         verify(taillePrixRepository).deleteById(1L);
+    }
+
+    @Test
+    void definirPrix_whenCocktailExists_shouldResetAndCreateThreeSizes() {
+        DefinirPrixDTO dto = new DefinirPrixDTO(
+                new BigDecimal("6.50"), new BigDecimal("8.00"), new BigDecimal("9.50"));
+        when(cocktailRepository.findById(1L)).thenReturn(Optional.of(cocktail));
+
+        taillePrixService.definirPrix(1L, dto);
+
+        verify(taillePrixRepository).deleteByCocktailId(1L);
+        verify(taillePrixRepository, times(3)).save(any(TaillePrix.class));
+    }
+
+    @Test
+    void definirPrix_whenCocktailNotFound_shouldThrow() {
+        DefinirPrixDTO dto = new DefinirPrixDTO(
+                new BigDecimal("6.50"), new BigDecimal("8.00"), new BigDecimal("9.50"));
+        when(cocktailRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> taillePrixService.definirPrix(99L, dto));
+        verify(taillePrixRepository, never()).save(any());
     }
 }

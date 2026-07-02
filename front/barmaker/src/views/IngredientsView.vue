@@ -101,7 +101,7 @@ const PAR_PAGE = 12
 
 const store = useIngredientStore()
 const page = ref(1)
-const vue = ref<'tous' | 'actifs'>('tous')
+const vue = ref<'tous' | 'actifs'>('actifs')
 const conteneur = ref<HTMLElement | null>(null)
 
 useSwipe(

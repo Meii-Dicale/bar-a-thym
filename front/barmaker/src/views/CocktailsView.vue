@@ -5,7 +5,7 @@
       <h1 class="font-fraunces" style="font-size: 36px; color: #1F2421;">
         {{ vue === 'disponibles' ? 'Cocktails disponibles' : 'Cocktails en ligne' }}
       </h1>
-      <div class="d-flex align-center" style="gap: 8px;">
+      <div class="d-flex align-center" style="gap: 12px;">
         <v-btn-toggle v-model="filtreAlcool" mandatory density="compact" rounded="lg" color="secondary">
           <v-btn value="tout" size="small">Tout</v-btn>
           <v-btn value="avec" size="small">Avec alcool</v-btn>
@@ -224,7 +224,7 @@ const recherche = ref('')
 const ingredientSelectionne = ref<string | null>(null)
 const filtresOuverts = ref(false)
 const conteneur = ref<HTMLElement | null>(null)
-const vue = ref<'disponibles' | 'en-ligne'>('disponibles')
+const vue = ref<'disponibles' | 'en-ligne'>('en-ligne')
 const filtreAlcool = ref<'tout' | 'avec' | 'sans'>('tout')
 
 const dialogPrix = ref(false)

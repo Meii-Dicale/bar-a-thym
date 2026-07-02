@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.CommandeRequestDTO;
 import com.barathym.dtos.CommandeResponseDTO;
 import com.barathym.entites.*;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.CommandeMapper;
 import com.barathym.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,8 @@ public class CommandeService {
     }
 
     public CommandeResponseDTO find(Long id) {
-        Commande commande = null;
-        if (commandeRepository.findById(id).isPresent()) {
-            commande = commandeRepository.findById(id).get();
-        }
+        Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Commande introuvable : " + id));
         return commandeMapper.toDTO(commande);
     }
 
@@ -79,14 +78,11 @@ public class CommandeService {
     }
 
     public void prendreEnCharge(Long commandeId, Long barmakerId) {
-        if (commandeRepository.findById(commandeId).isPresent()) {
-            Commande commande = commandeRepository.findById(commandeId).get();
-            commande.setStatut(Commande.Statut.EN_COURS);
-            if (utilisateurRepository.findById(barmakerId).isPresent()) {
-                commande.setBarmaker(utilisateurRepository.findById(barmakerId).get());
-            }
-            commandeRepository.save(commande);
-        }
+        Commande commande = commandeRepository.findById(commandeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Commande introuvable : " + commandeId));
+        commande.setStatut(Commande.Statut.EN_COURS);
+        utilisateurRepository.findById(barmakerId).ifPresent(commande::setBarmaker);
+        commandeRepository.save(commande);
     }
 
     public void verifierEtTerminer(Long commandeId) {

@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.UtilisateurRequestDTO;
 import com.barathym.dtos.UtilisateurResponseDTO;
 import com.barathym.entites.Utilisateur;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.UtilisateurMapper;
 import com.barathym.repositories.UtilisateurRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,13 +78,10 @@ class UtilisateurServiceTest {
     }
 
     @Test
-    void find_whenNotExists_shouldReturnNull() {
+    void find_whenNotExists_shouldThrow() {
         when(utilisateurRepository.findById(99L)).thenReturn(Optional.empty());
-        when(utilisateurMapper.toDTO((Utilisateur) null)).thenReturn(null);
 
-        UtilisateurResponseDTO result = utilisateurService.find(99L);
-
-        assertNull(result);
+        assertThrows(ResourceNotFoundException.class, () -> utilisateurService.find(99L));
     }
 
     @Test

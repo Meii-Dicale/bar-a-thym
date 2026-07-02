@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.CocktailRequestDTO;
 import com.barathym.dtos.CocktailResponseDTO;
 import com.barathym.entites.Cocktail;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.CocktailMapper;
 import com.barathym.repositories.CocktailRepository;
 import com.barathym.repositories.TaillePrixRepository;
@@ -88,10 +89,10 @@ class CocktailServiceTest {
     }
 
     @Test
-    void find_whenNotExists_shouldReturnNull() {
+    void find_whenNotExists_shouldThrow() {
         when(cocktailRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertNull(cocktailService.find(99L));
+        assertThrows(ResourceNotFoundException.class, () -> cocktailService.find(99L));
     }
 
     @Test
@@ -135,11 +136,10 @@ class CocktailServiceTest {
     }
 
     @Test
-    void toggleActif_whenNotExists_shouldDoNothing() {
+    void toggleActif_whenNotExists_shouldThrow() {
         when(cocktailRepository.findById(99L)).thenReturn(Optional.empty());
 
-        cocktailService.toggleActif(99L);
-
+        assertThrows(ResourceNotFoundException.class, () -> cocktailService.toggleActif(99L));
         verify(cocktailRepository, never()).save(any());
     }
 

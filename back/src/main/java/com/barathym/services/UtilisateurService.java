@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.UtilisateurRequestDTO;
 import com.barathym.dtos.UtilisateurResponseDTO;
 import com.barathym.entites.Utilisateur;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.UtilisateurMapper;
 import com.barathym.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,8 @@ public class UtilisateurService {
     }
 
     public UtilisateurResponseDTO find(Long id) {
-        Utilisateur utilisateur = null;
-        if (utilisateurRepository.findById(id).isPresent()) {
-            utilisateur = utilisateurRepository.findById(id).get();
-        }
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur introuvable : " + id));
         return utilisateurMapper.toDTO(utilisateur);
     }
 

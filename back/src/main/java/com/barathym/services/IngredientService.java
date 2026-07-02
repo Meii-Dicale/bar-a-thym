@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.IngredientRequestDTO;
 import com.barathym.dtos.IngredientResponseDTO;
 import com.barathym.entites.Ingredient;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.IngredientMapper;
 import com.barathym.repositories.IngredientRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,8 @@ public class IngredientService {
     }
 
     public IngredientResponseDTO find(Long id) {
-        Ingredient ingredient = null;
-        if (ingredientRepository.findById(id).isPresent()) {
-            ingredient = ingredientRepository.findById(id).get();
-        }
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ingrédient introuvable : " + id));
         return ingredientMapper.toDTO(ingredient);
     }
 
@@ -40,11 +39,10 @@ public class IngredientService {
     }
 
     public void toggleDisponible(Long id) {
-        if (ingredientRepository.findById(id).isPresent()) {
-            Ingredient ingredient = ingredientRepository.findById(id).get();
-            ingredient.setDisponible(!ingredient.getDisponible());
-            ingredientRepository.save(ingredient);
-        }
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ingrédient introuvable : " + id));
+        ingredient.setDisponible(!ingredient.getDisponible());
+        ingredientRepository.save(ingredient);
     }
 
     public void remove(Long id) {

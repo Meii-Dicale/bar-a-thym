@@ -4,6 +4,7 @@ import com.barathym.dtos.CommandeRequestDTO;
 import com.barathym.dtos.CommandeResponseDTO;
 import com.barathym.dtos.LigneCommandeRequestDTO;
 import com.barathym.entites.*;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.CommandeMapper;
 import com.barathym.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,11 +116,10 @@ class CommandeServiceTest {
     }
 
     @Test
-    void find_whenNotExists_shouldReturnNull() {
+    void find_whenNotExists_shouldThrow() {
         when(commandeRepository.findById(99L)).thenReturn(Optional.empty());
-        when(commandeMapper.toDTO((Commande) null)).thenReturn(null);
 
-        assertNull(commandeService.find(99L));
+        assertThrows(ResourceNotFoundException.class, () -> commandeService.find(99L));
     }
 
     @Test
@@ -163,11 +163,10 @@ class CommandeServiceTest {
     }
 
     @Test
-    void prendreEnCharge_whenNotFound_shouldDoNothing() {
+    void prendreEnCharge_whenNotFound_shouldThrow() {
         when(commandeRepository.findById(99L)).thenReturn(Optional.empty());
 
-        commandeService.prendreEnCharge(99L, 2L);
-
+        assertThrows(ResourceNotFoundException.class, () -> commandeService.prendreEnCharge(99L, 2L));
         verify(commandeRepository, never()).save(any());
     }
 

@@ -2,6 +2,7 @@ package com.barathym.services;
 
 import com.barathym.dtos.LigneCommandeResponseDTO;
 import com.barathym.entites.LigneCommande;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.LigneCommandeMapper;
 import com.barathym.repositories.LigneCommandeRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,14 @@ public class LigneCommandeService {
     }
 
     public void avancerStatut(Long id) {
-        if (ligneCommandeRepository.findById(id).isPresent()) {
-            LigneCommande ligne = ligneCommandeRepository.findById(id).get();
-            LigneCommande.Statut prochain = prochainStatut(ligne.getStatut());
-            if (prochain != null) {
-                ligne.setStatut(prochain);
-                ligneCommandeRepository.save(ligne);
-                if (prochain == LigneCommande.Statut.TERMINEE) {
-                    commandeService.verifierEtTerminer(ligne.getCommande().getId());
-                }
+        LigneCommande ligne = ligneCommandeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ligne de commande introuvable : " + id));
+        LigneCommande.Statut prochain = prochainStatut(ligne.getStatut());
+        if (prochain != null) {
+            ligne.setStatut(prochain);
+            ligneCommandeRepository.save(ligne);
+            if (prochain == LigneCommande.Statut.TERMINEE) {
+                commandeService.verifierEtTerminer(ligne.getCommande().getId());
             }
         }
     }

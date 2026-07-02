@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.LigneCommandeResponseDTO;
 import com.barathym.entites.Commande;
 import com.barathym.entites.LigneCommande;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.LigneCommandeMapper;
 import com.barathym.repositories.LigneCommandeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,11 +100,10 @@ class LigneCommandeServiceTest {
     }
 
     @Test
-    void avancerStatut_whenNotFound_shouldDoNothing() {
+    void avancerStatut_whenNotFound_shouldThrow() {
         when(ligneCommandeRepository.findById(99L)).thenReturn(Optional.empty());
 
-        ligneCommandeService.avancerStatut(99L);
-
+        assertThrows(ResourceNotFoundException.class, () -> ligneCommandeService.avancerStatut(99L));
         verify(ligneCommandeRepository, never()).save(any());
     }
 }

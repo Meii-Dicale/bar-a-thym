@@ -5,6 +5,7 @@ import com.barathym.dtos.TaillePrixRequestDTO;
 import com.barathym.dtos.TaillePrixResponseDTO;
 import com.barathym.entites.Cocktail;
 import com.barathym.entites.TaillePrix;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.TaillePrixMapper;
 import com.barathym.repositories.CocktailRepository;
 import com.barathym.repositories.TaillePrixRepository;
@@ -52,7 +53,7 @@ public class TaillePrixService {
     @Transactional
     public void definirPrix(Long cocktailId, DefinirPrixDTO dto) {
         Cocktail cocktail = cocktailRepository.findById(cocktailId)
-                .orElseThrow(() -> new RuntimeException("Cocktail non trouvé"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cocktail introuvable : " + cocktailId));
         taillePrixRepository.deleteByCocktailId(cocktailId);
         creer(cocktail, TaillePrix.Taille.S, dto.prixS());
         creer(cocktail, TaillePrix.Taille.M, dto.prixM());

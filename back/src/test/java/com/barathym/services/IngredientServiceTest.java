@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.IngredientRequestDTO;
 import com.barathym.dtos.IngredientResponseDTO;
 import com.barathym.entites.Ingredient;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.IngredientMapper;
 import com.barathym.repositories.IngredientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,11 +70,10 @@ class IngredientServiceTest {
     }
 
     @Test
-    void find_whenNotExists_shouldReturnNull() {
+    void find_whenNotExists_shouldThrow() {
         when(ingredientRepository.findById(99L)).thenReturn(Optional.empty());
-        when(ingredientMapper.toDTO((Ingredient) null)).thenReturn(null);
 
-        assertNull(ingredientService.find(99L));
+        assertThrows(ResourceNotFoundException.class, () -> ingredientService.find(99L));
     }
 
     @Test
@@ -117,11 +117,10 @@ class IngredientServiceTest {
     }
 
     @Test
-    void toggleDisponible_whenNotExists_shouldDoNothing() {
+    void toggleDisponible_whenNotExists_shouldThrow() {
         when(ingredientRepository.findById(99L)).thenReturn(Optional.empty());
 
-        ingredientService.toggleDisponible(99L);
-
+        assertThrows(ResourceNotFoundException.class, () -> ingredientService.toggleDisponible(99L));
         verify(ingredientRepository, never()).save(any());
     }
 

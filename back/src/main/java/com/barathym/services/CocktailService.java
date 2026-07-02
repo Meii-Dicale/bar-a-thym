@@ -3,6 +3,7 @@ package com.barathym.services;
 import com.barathym.dtos.CocktailRequestDTO;
 import com.barathym.dtos.CocktailResponseDTO;
 import com.barathym.entites.Cocktail;
+import com.barathym.exceptions.ResourceNotFoundException;
 import com.barathym.mappers.CocktailMapper;
 import com.barathym.repositories.CocktailRepository;
 import com.barathym.repositories.TaillePrixRepository;
@@ -51,7 +52,7 @@ public class CocktailService {
                     return new CocktailResponseDTO(dto.id(), dto.apiId(), dto.nom(), dto.imageUrl(),
                             dto.categorie(), dto.actif(), dto.instructions(), dto.alcoolise(), dto.ingredients(), aPrix);
                 })
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Cocktail introuvable : " + id));
     }
 
     private List<CocktailResponseDTO> enrichir(List<CocktailResponseDTO> dtos) {
@@ -75,11 +76,10 @@ public class CocktailService {
     }
 
     public void toggleActif(Long id) {
-        if (cocktailRepository.findById(id).isPresent()) {
-            Cocktail cocktail = cocktailRepository.findById(id).get();
-            cocktail.setActif(!cocktail.getActif());
-            cocktailRepository.save(cocktail);
-        }
+        Cocktail cocktail = cocktailRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cocktail introuvable : " + id));
+        cocktail.setActif(!cocktail.getActif());
+        cocktailRepository.save(cocktail);
     }
 
     public void remove(Long id) {

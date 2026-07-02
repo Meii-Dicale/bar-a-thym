@@ -49,9 +49,12 @@
               rounded="lg"
               color="primary"
               class="mb-3"
+              enterkeyhint="next"
+              @keyup.enter="champMotDePasse?.focus()"
             />
 
             <v-text-field
+              ref="champMotDePasse"
               v-model="motDePasse"
               label="Mot de passe"
               type="password"
@@ -59,6 +62,7 @@
               rounded="lg"
               color="primary"
               class="mb-4"
+              enterkeyhint="done"
               @keyup.enter="connexion"
             />
 
@@ -98,6 +102,8 @@ import woodBg from '@/assets/wood-bg.jpg'
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+
+const champMotDePasse = ref<{ focus: () => void } | null>(null)
 
 const email = ref('')
 const motDePasse = ref('')

@@ -31,18 +31,24 @@
               rounded="lg"
               color="primary"
               class="mb-3"
+              enterkeyhint="next"
+              @keyup.enter="champNom?.focus()"
             />
 
             <v-text-field
+              ref="champNom"
               v-model="form.nom"
               label="Nom"
               variant="outlined"
               rounded="lg"
               color="primary"
               class="mb-3"
+              enterkeyhint="next"
+              @keyup.enter="champEmail?.focus()"
             />
 
             <v-text-field
+              ref="champEmail"
               v-model="form.email"
               label="Adresse email"
               type="email"
@@ -50,9 +56,12 @@
               rounded="lg"
               color="primary"
               class="mb-3"
+              enterkeyhint="next"
+              @keyup.enter="champMotDePasse?.focus()"
             />
 
             <v-text-field
+              ref="champMotDePasse"
               v-model="form.motDePasse"
               label="Mot de passe"
               type="password"
@@ -60,6 +69,7 @@
               rounded="lg"
               color="primary"
               class="mb-5"
+              enterkeyhint="done"
               @keyup.enter="inscrire"
             />
 
@@ -96,6 +106,10 @@ import { authService } from '@/services/authService'
 import logo from '@/assets/logo.png'
 import woodBg from '@/assets/wood-bg.jpg'
 const router = useRouter()
+
+const champNom = ref<{ focus: () => void } | null>(null)
+const champEmail = ref<{ focus: () => void } | null>(null)
+const champMotDePasse = ref<{ focus: () => void } | null>(null)
 
 const form = reactive({
   prenom: '',

@@ -1,7 +1,7 @@
 <template>
   <div ref="conteneur" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
 
-    <div class="d-flex align-center justify-space-between" style="flex-shrink: 0; margin-bottom: 16px;">
+    <div class="d-flex align-center justify-space-between" style="flex-shrink: 0; margin-bottom: 10px;">
       <h1 class="font-fraunces" style="font-size: 36px; color: #1F2421;">
         {{ vue === 'disponibles' ? 'Cocktails disponibles' : 'Cocktails en ligne' }}
       </h1>
@@ -26,7 +26,7 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="filtresOuverts" style="flex-shrink: 0; margin-bottom: 16px; display: flex; gap: 12px;">
+      <div v-if="filtresOuverts" style="flex-shrink: 0; margin-bottom: 10px; display: flex; gap: 12px;">
         <v-text-field
           v-model="recherche"
           placeholder="Rechercher un cocktail…"
@@ -71,13 +71,13 @@
           v-for="cocktail in cocktailsPage"
           :key="cocktail.id"
           cols="12" sm="6" md="4" lg="3"
-          style="padding: 8px;"
+          style="padding: 5px;"
         >
           <v-card rounded="xl" elevation="0" border>
             <div style="position: relative;">
               <v-img
                 :src="cocktail.imageUrl ?? ''"
-                height="120"
+                height="110"
                 cover
                 class="rounded-t-xl"
               >
@@ -310,7 +310,7 @@ const cocktailsPage = computed(() => {
 })
 
 onMounted(() => {
-  store.fetchDisponibles()
+  store.fetchActifs()
   ingredientStore.fetchAll()
 })
 </script>

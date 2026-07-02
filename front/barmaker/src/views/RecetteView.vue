@@ -5,9 +5,9 @@
       color="primary"
       prepend-icon="mdi-arrow-left"
       class="mb-6 px-0"
-      to="/cocktails"
+      @click="router.go(-1)"
     >
-      Retour aux cocktails
+      Retour
     </v-btn>
 
     <v-progress-linear v-if="chargement" indeterminate color="primary" class="mb-4" />
@@ -71,7 +71,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
 import { cocktailService } from '@/services/cocktailService'
 import type { Cocktail, TaillePrix } from '@/types'
 

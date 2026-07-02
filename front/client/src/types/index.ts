@@ -39,6 +39,7 @@ export interface LigneCommande {
   cocktailNom: string
   taillePrixId: number
   taille: 'S' | 'M' | 'L'
+  prix: number
   note: string | null
   statut: 'PREPARATION' | 'ASSEMBLAGE' | 'DRESSAGE' | 'TERMINEE'
 }

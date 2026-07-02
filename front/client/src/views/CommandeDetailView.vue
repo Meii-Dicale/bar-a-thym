@@ -68,6 +68,18 @@
           </span>
         </v-card-text>
       </v-card>
+
+      <v-btn
+        v-if="store.commandeSelectionnee.statut === 'TERMINEE'"
+        color="primary"
+        rounded="lg"
+        block
+        class="mt-4"
+        prepend-icon="mdi-download"
+        @click="telechargerRecu"
+      >
+        Télécharger mon reçu
+      </v-btn>
     </div>
   </div>
 </template>
@@ -75,6 +87,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { jsPDF } from 'jspdf'
 import { useCommandeStore } from '@/stores/useCommandeStore'
 import { STATUT_COMMANDE_LABELS, STATUT_LIGNE_LABELS } from '@/types'
 import type { LigneCommande, Commande } from '@/types'
@@ -108,6 +121,62 @@ function couleurStatut(statut: Commande['statut']): string {
 onMounted(() => {
   store.fetchDetail(Number(route.params.id))
 })
+
+function telechargerRecu() {
+  const commande = store.commandeSelectionnee
+  if (!commande) return
+
+  const largeur = 80
+  const marge = 6
+  const hauteur = 60 + commande.lignes.length * 16 + 30
+  const doc = new jsPDF({ unit: 'mm', format: [largeur, hauteur] })
+  const centre = largeur / 2
+  let y = 10
+
+  doc.setFont('courier', 'bold')
+  doc.setFontSize(13)
+  doc.text('Bar à Thym', centre, y, { align: 'center' })
+  y += 6
+
+  doc.setFont('courier', 'normal')
+  doc.setFontSize(9)
+  doc.text(`Commande n°${commande.id}`, centre, y, { align: 'center' })
+  y += 5
+  doc.text(new Date(commande.creeLe).toLocaleString('fr-FR'), centre, y, { align: 'center' })
+  y += 7
+
+  doc.text('-'.repeat(34), centre, y, { align: 'center' })
+  y += 6
+
+  for (const ligne of commande.lignes) {
+    doc.text(`${ligne.cocktailNom} (${ligne.taille})`, marge, y)
+    y += 5
+    if (ligne.note) {
+      doc.setFontSize(7)
+      doc.text(`« ${ligne.note} »`, marge + 2, y)
+      doc.setFontSize(9)
+      y += 4
+    }
+    doc.text(`${ligne.prix.toFixed(2)} €`, largeur - marge, y - 5, { align: 'right' })
+    y += 4
+  }
+
+  y += 2
+  doc.text('-'.repeat(34), centre, y, { align: 'center' })
+  y += 7
+
+  doc.setFont('courier', 'bold')
+  doc.setFontSize(11)
+  doc.text('TOTAL', marge, y)
+  doc.text(`${commande.total.toFixed(2)} €`, largeur - marge, y, { align: 'right' })
+  y += 8
+
+  doc.setFont('courier', 'normal')
+  doc.setFontSize(8)
+  doc.text('Merci de votre visite !', centre, y, { align: 'center' })
+
+  doc.save(`recu-commande-${commande.id}.pdf`)
+}
 </script>
 
 <style scoped>

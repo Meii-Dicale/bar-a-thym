@@ -41,7 +41,7 @@ class LigneCommandeServiceTest {
         ligne.setCommande(commande);
         ligne.setStatut(LigneCommande.Statut.PREPARATION);
 
-        responseDTO = new LigneCommandeResponseDTO(1L, 1L, 1L, "Mojito", 1L, null, null, LigneCommande.Statut.PREPARATION);
+        responseDTO = new LigneCommandeResponseDTO(1L, 1L, 1L, "Mojito", 1L, null, null, null, LigneCommande.Statut.PREPARATION);
     }
 
     @Test

@@ -15,6 +15,7 @@ public interface LigneCommandeMapper {
     @Mapping(source = "cocktail.nom", target = "cocktailNom")
     @Mapping(source = "taillePrix.id", target = "taillePrixId")
     @Mapping(source = "taillePrix.taille", target = "taille")
+    @Mapping(source = "taillePrix.prix", target = "prix")
     LigneCommandeResponseDTO toDTO(LigneCommande ligneCommande);
     List<LigneCommandeResponseDTO> toDTO(List<LigneCommande> lignes);
     LigneCommande toEntity(LigneCommandeRequestDTO dto);

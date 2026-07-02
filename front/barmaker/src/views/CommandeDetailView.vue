@@ -40,18 +40,30 @@
                 « {{ ligne.note }} »
               </p>
             </div>
-            <v-btn
-              v-if="ligne.statut !== 'TERMINEE'"
-              color="primary"
-              rounded="lg"
-              size="small"
-              @click="avancer(ligne.id)"
-            >
-              Étape suivante
-            </v-btn>
-            <v-chip v-else color="success" variant="tonal" size="small">
-              Terminé ✓
-            </v-chip>
+            <div class="d-flex align-center" style="gap: 8px;">
+              <v-btn
+                v-if="ligne.statut !== 'TERMINEE'"
+                variant="outlined"
+                color="primary"
+                rounded="lg"
+                size="small"
+                :to="`/cocktails/${ligne.cocktailId}/recette`"
+              >
+                Voir la recette
+              </v-btn>
+              <v-btn
+                v-if="ligne.statut !== 'TERMINEE'"
+                color="primary"
+                rounded="lg"
+                size="small"
+                @click="avancer(ligne.id)"
+              >
+                Étape suivante
+              </v-btn>
+              <v-chip v-else color="success" variant="tonal" size="small">
+                Terminé ✓
+              </v-chip>
+            </div>
           </div>
 
           <div class="d-flex align-center" style="gap: 0;">

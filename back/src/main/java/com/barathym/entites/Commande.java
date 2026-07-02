@@ -38,6 +38,7 @@ public class Commande {
     private LocalDateTime creeLe;
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id ASC")
     private List<LigneCommande> lignesCommande;
 
     public enum Statut {

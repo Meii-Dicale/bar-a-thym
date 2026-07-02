@@ -5,6 +5,7 @@ import com.barathym.dtos.CocktailResponseDTO;
 import com.barathym.entites.Cocktail;
 import com.barathym.mappers.CocktailMapper;
 import com.barathym.repositories.CocktailRepository;
+import com.barathym.repositories.TaillePrixRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,6 +28,9 @@ class CocktailServiceTest {
 
     @Mock
     private CocktailMapper cocktailMapper;
+
+    @Mock
+    private TaillePrixRepository taillePrixRepository;
 
     @InjectMocks
     private CocktailService cocktailService;
@@ -50,6 +55,7 @@ class CocktailServiceTest {
     void findAll_shouldReturnAllCocktails() {
         when(cocktailRepository.findAll()).thenReturn(List.of(cocktail));
         when(cocktailMapper.toDTO(List.of(cocktail))).thenReturn(List.of(responseDTO));
+        when(taillePrixRepository.findAllCocktailIdsAvecPrix()).thenReturn(Set.of(1L));
 
         List<CocktailResponseDTO> result = cocktailService.findAll();
 
@@ -61,6 +67,7 @@ class CocktailServiceTest {
     void findActifs_shouldReturnOnlyActifs() {
         when(cocktailRepository.findByActifTrue()).thenReturn(List.of(cocktail));
         when(cocktailMapper.toDTO(List.of(cocktail))).thenReturn(List.of(responseDTO));
+        when(taillePrixRepository.findAllCocktailIdsAvecPrix()).thenReturn(Set.of(1L));
 
         List<CocktailResponseDTO> result = cocktailService.findActifs();
 
@@ -72,6 +79,7 @@ class CocktailServiceTest {
     void find_whenExists_shouldReturnDTO() {
         when(cocktailRepository.findById(1L)).thenReturn(Optional.of(cocktail));
         when(cocktailMapper.toDTO(cocktail)).thenReturn(responseDTO);
+        when(taillePrixRepository.findByCocktailId(1L)).thenReturn(List.of());
 
         CocktailResponseDTO result = cocktailService.find(1L);
 
@@ -82,7 +90,6 @@ class CocktailServiceTest {
     @Test
     void find_whenNotExists_shouldReturnNull() {
         when(cocktailRepository.findById(99L)).thenReturn(Optional.empty());
-        when(cocktailMapper.toDTO((Cocktail) null)).thenReturn(null);
 
         assertNull(cocktailService.find(99L));
     }

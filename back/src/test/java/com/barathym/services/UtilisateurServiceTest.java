@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,9 @@ class UtilisateurServiceTest {
 
     @Mock
     private UtilisateurMapper utilisateurMapper;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UtilisateurService utilisateurService;
@@ -85,9 +89,11 @@ class UtilisateurServiceTest {
     @Test
     void save_shouldMapAndPersist() {
         when(utilisateurMapper.toEntity(requestDTO)).thenReturn(utilisateur);
+        when(passwordEncoder.encode("password")).thenReturn("hashed");
 
         utilisateurService.save(requestDTO);
 
+        assertEquals("hashed", utilisateur.getMotDePasse());
         verify(utilisateurMapper).toEntity(requestDTO);
         verify(utilisateurRepository).save(utilisateur);
     }

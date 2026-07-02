@@ -60,8 +60,8 @@ class SyncServiceTest {
     void syncCocktails_retourneLeTotalImporteeSurToutLalphabet() {
         CocktailApiItemDTO item = buildItem("1", "Mojito");
         when(cocktailApiClient.rechercherParLettre(anyChar()))
-                .thenReturn(Collections.emptyList())
-                .thenReturn(List.of(item));
+                .thenReturn(List.of(item))
+                .thenReturn(Collections.emptyList());
 
         Cocktail savedCocktail = new Cocktail();
         savedCocktail.setId(10L);

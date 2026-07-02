@@ -6,10 +6,9 @@
           <v-card-text class="pa-8">
 
             <div class="text-center mb-8">
-              <v-avatar color="primary" size="64" rounded="lg" class="mb-4">
-                <v-icon icon="mdi-leaf" color="white" size="32" />
+              <v-avatar size="120" class="mb-4">
+                <v-img :src="logo" alt="Bar à Thym" />
               </v-avatar>
-              <h1 class="font-fraunces" style="font-size: 28px; color: #1F2421;">Bar à Thym</h1>
               <p style="color: rgba(31,36,33,0.6); margin-top: 4px;">Espace Barmaker</p>
             </div>
 
@@ -60,6 +59,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
+import logo from '@/assets/logo.png'
 
 const router = useRouter()
 const authStore = useAuthStore()

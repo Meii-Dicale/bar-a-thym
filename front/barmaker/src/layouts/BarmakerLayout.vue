@@ -5,8 +5,8 @@
       <div style="height: 100%; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
 
         <div class="d-flex align-center" style="gap: 10px; flex-shrink: 0; margin-bottom: 32px;">
-          <v-avatar color="primary" size="44" rounded="lg">
-            <v-icon icon="mdi-leaf" color="white" />
+          <v-avatar size="44">
+            <v-img :src="logo" alt="Bar à Thym" />
           </v-avatar>
           <span class="font-fraunces font-weight-bold font-italic" style="font-size: 17px; color: #1F2421; white-space: nowrap;">
             Bar à Thym
@@ -27,6 +27,25 @@
         </v-list>
 
         <div style="flex: 1;" />
+
+        <span
+          v-if="authStore.utilisateur"
+          style="font-size: 13px; color: #1F2421; opacity: 0.7; margin-bottom: 4px; white-space: nowrap;"
+        >
+          {{ authStore.utilisateur.prenom }}
+        </span>
+
+        <v-btn
+          variant="text"
+          color="primary"
+          prepend-icon="mdi-logout"
+          rounded="lg"
+          class="mb-3"
+          style="justify-content: flex-start;"
+          @click="deconnexion"
+        >
+          Déconnexion
+        </v-btn>
 
         <div class="pa-4 rounded-xl" style="background: #C98E5F; color: white; flex-shrink: 0;">
           <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; opacity: 0.8;">
@@ -50,9 +69,19 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { useCocktailStore } from '@/stores/useCocktailStore'
+import { useAuthStore } from '@/stores/useAuthStore'
+import logo from '@/assets/logo.png'
 
+const router = useRouter()
 const cocktailStore = useCocktailStore()
+const authStore = useAuthStore()
+
+function deconnexion() {
+  authStore.logout()
+  router.push('/login')
+}
 
 const navItems = [
   { to: '/ingredients',   icon: 'mdi-leaf-circle-outline', label: 'Ingrédients'   },
